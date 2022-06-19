@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% load static %}
+<head>
+    <!-- <link rel="stylesheet" href="{% static 'portal/css/carousel.css' %}" /> -->
+    <link rel="stylesheet" href="{% static 'portal/css/help.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.0-beta/dist/chart.min.js"></script>
+</head>
+
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main">
+        <div class="text-center" style="padding: 2%;">
+            <div class="row">
+                <div class="col-2">
+                    <a href="{% url 'tools' %}">
+                        <button type="button" class="btn btn-info">Go Back</button>
+                    </a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <h3>Climate-Biogeochemistry Model Forecast</h3>
+                    {{message|linebreaks}}
+                    <div>
+                        <form method="POST" name="mapform">
+                            {% csrf_token %}
+                            {{ form }}
+                            <!-- <input type="submit" name="Submit" value="Submit" /> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <img style="max-width: 60%;" src={{highresmap.image.url}} alt="HighResMap">
+                </div>
+                <div class="col-2"></div>
+            </div>
+            <br>
+            <hr>
+            <h3>Sea Surface Temperature</h3>
+
+            <div class="row">
+                <div class="col-6">
+                    <img style="max-width: 60%;" src={{sst_mean.image.url}} alt="SSTMean">
+                </div>
+                <div class="col-6">
+                    <img style="max-width: 60%;" src={{sst_sd.image.url}} alt="SSTSD">
+                </div>
+            </div>
+            <br>
+            <hr>
+            <h3>Sea Surface Chlorophyll</h3>
+            <div class="row">
+                <div class="col-6">
+                    <img style="max-width: 60%;" src={{surfaceChl_mean.image.url}} alt="surfaceChl_mean">
+                </div>
+                <div class="col-6">
+                    <img style="max-width: 60%;" src={{surfaceChl_sd.image.url}} alt="surfaceChl_sd">
+                </div>
+            </div>
+            <br>
+            <hr>
+            <h3>Mixed Layer Depth</h3>
+            <br>
+            <div class="row">
+                <div class="col-6">
+                    <img style="max-width: 60%;" src={{hmxl_mean.image.url}} alt="hmxl_mean">
+                </div>
+                <div class="col-6">
+                    <img style="max-width: 60%;" src={{hmxl_sd.image.url}} alt="hmxl_sd">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-12">
+                    <button class="collapsible">How to use this Tool?</button>
+                    <div class="content" style="width: 100%;">
+                        <br>
+                        <p>Select the type of fish and the time period, the tool automatically renders the data</p>
+                        <p>This tool provides the insights of the variation of fish through time versus the geographical location.</p>
+                        <br>
+                    </div>
+                    <button class="collapsible">What is Biomass and its units?</button>
+                    <div class="content" style="width: 100%;">
+                        <br>
+                        <p>Biomass gives an idea of the total mass of organisms(here fish) living in that area. Our tool visualizes the biomass of the fish in the map, the light color indicates less fish and the darker color denotes more fish. It's units are grams per square meter(g/m2 or GSM)</p>
+                        <br>
+                    </div>
+                    <button class="collapsible">Read More about {{fish}}</button>
+                    <div class="content">
+                        <br>
+                        <p>
+                            {{description|safe}}
+                        </p>
+                        <br>
+                        <h5><a href="/static/Petrik_etal_2019.pdf" target="_blank">Reference Link</a></h5>
+                        <br>
+                    </div>
+                </div>
+            <br><br>
+
+            <script>
+                var coll = document.getElementsByClassName("collapsible");
+                var i;
+                
+                for (i = 0; i < coll.length; i++) {
+                    coll[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var content = this.nextElementSibling;
+                    if (content.style.maxHeight){
+                        content.style.maxHeight = null;
+                    } else {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                    } 
+                    });
+                }
+            </script>
+        </div>
+    </main>
+
+    <br><br><br>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <!-- <link rel="stylesheet" href="/static/portal/css/news.css"> -->
+{% endblock stylesheets %}
+{% load static %}
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            <div class="container">
+                <div class="section-title text-center">
+                    <br>
+                    <h1 style="text-decoration: underline;">RESEARCH THRUST - 2</h1>
+                    <!-- <h3 class="text-info font-weight-bold">Ensuring sustainability of west coast fisheries</h3> -->
+                </div>
+
+                <hr class="featurette-divider">
+
+                <div>
+                    <div class="card-body">
+                        <li class="media">
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_comp_chl.mp4' %}" type="video/mp4"></source>
+                              </video>
+                            <div class="media-body align-self-center" style="padding-left: 10px;">
+                              <h5 class="card-title"><span class="text-info">Animation of Chlorophyll concentration from low-resolution (LR) and high-resolution (HR) models during 1987</span></h5>
+                              <h6 class="card-title">Note: HR data is only available till 1991 but that for LR is available till 2020. The mid-March to mid-November period shows very fine-scale features in the HR case.</h6>
+                            </div>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">Chlorophyll concentration from LR case in a different projection. These type of plots/movies will help to demonstrate that the model is a global model, without the typical drawbacks of regional models (eg. EcoCAST).</span></h5>
+                            </div> 
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_lr_chl_1.mp4' %}" type="video/mp4"></source>
+                            </video>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                        <li class="media">
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_hr_3var.mp4' %}" type="video/mp4"></source>
+                            </video>
+                            <div class="media-body align-self-center" style="padding-left: 10px;">
+                                <h5 class="card-title "><span class="text-info">This Animation shows the capability of our HR configuration in resolving near-coastal fine scale processes. The sea surface temperature (SST) in the first panel is cooler near the coast during the upwelling season (May-Sep). </span></h5>
+                            </div>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">A view of the anomalies in model fields during 2014-2015 Marine Heat Wave (the blob). Monthly data is used here. 
+                                    SST field clearly shows the warm anomalies associated with the blob (compare 2014-Sep with that in <a href="https://www.fisheries.noaa.gov/feature-story/new-marine-heatwave-emerges-west-coast-resembles-blob"> here</a>). 
+                                    </span></h5>
+                            </div> 
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_lr_mhw.mp4' %}" type="video/mp4"></source>
+                            </video>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                </div>			
+            </div><!--- END CONTAINER -->		
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

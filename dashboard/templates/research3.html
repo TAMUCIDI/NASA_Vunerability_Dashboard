@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <!-- <link rel="stylesheet" href="/static/portal/css/news.css"> -->
+{% endblock stylesheets %}
+{% load static %}
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            <div class="container">
+                <div class="section-title text-center">
+                    <br>
+                    <h1 style="text-decoration: underline;">RESEARCH THRUST - 3</h1>
+                    <!-- <h3 class="text-info font-weight-bold">Ensuring sustainability of west coast fisheries</h3> -->
+                </div>
+
+                <!-- <hr class="featurette-divider">
+                    <iframe width="100%" height="800px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://tamu.maps.arcgis.com/apps/dashboards/11faef0eabae425e809cd1049d63270c"></iframe> -->
+                <hr class="featurette-divider">
+                
+                <div>
+                    <div class="card-body">
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title ">
+                                    This research thrust is aimed at developing a prototype model for species distribution predictions of market squid. The prototype will extend the spatial decision-making capabilities for the Pacific Fishery Management Council’s management strategy evaluation tool. The current experimental model offers probabilistic predictions of the occurrence of market quid based on physical ocean variables such as substrate type, ocean bottom temperature, and bottom oxygen. The available data output for the model is a daily prediction on a 0.1 degree spatial resolution. Currently the model is able to produce experimental predictions for probabilities of species presence, but could be adapted to provide predictions of biomass and catch. In our Phase II project, we plan to utilize deliverables—output data—from the HiCATCCHp simulations to force the prototype market squid model. These prediction simulations will then be integrated into the Management Evaluation system to evaluate the utility of shorter-term forecasting information for fisheries management decisions.
+                                </h5>
+                            </div> 
+                        </li>
+                        <br>
+                        <hr class="featurette-divider">
+                        <br>
+                        <div class="text-center">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h3>Predictions for Probabilities of Squid Presence</h3>
+                                    {{message|linebreaks}}
+                                    <div>
+                                        <form method="POST" name="squidform">
+                                            {% csrf_token %}
+                                            {{ form }}
+                                            <!-- <input type="submit" name="Submit" value="Submit" /> -->
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2"></div>
+                                <div class="col-8">
+                                    <img style="max-width: 90%;" src={{squidmap.image.url}} alt="SquidMap">
+                                </div>
+                                <div class="col-2"></div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr class="featurette-divider">
+                        <br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title ">
+                                    [1] Reference Article: <a href="https://calcofi.com/publications/calcofireports/v60/Vol60-Muhling.pdf">[Link]</a>
+                                </h5>
+                            </div> 
+                        </li>
+                </div>			
+            </div><!--- END CONTAINER -->		
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <!-- <link rel="stylesheet" href="/static/portal/css/news.css"> -->
+{% endblock stylesheets %}
+{% load static %}
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            <div class="container">
+                <div class="section-title text-center">
+                    <br>
+                    <h1 style="text-decoration: underline;">RESEARCH THRUST - 1</h1>
+                    <!-- <h3 class="text-info font-weight-bold">Ensuring sustainability of west coast fisheries</h3> -->
+                </div>
+
+                <hr class="featurette-divider">
+
+                <div>
+                    <div class="card-body">
+                        <li class="media">
+                            <img class="align-self-center mr-3" style="max-width: 25vw;" src="{% static 'portal/img/catcch/interview.png' %}" alt="Generic placeholder image">
+                            <div class="media-body align-self-center">
+                              <h5 class="card-title ">The <a href="{% url 'team' %}"><span class="text-info">Team</span></a> has conducted 15 interviews to fishery industry managers, researchers, scientists, and policy makers. There are multiple sources of reliable data but no way to synthesize into a combined form to support decisions.</h5>
+                            </div>
+                        </li>
+                        <br>
+                        <hr class="featurette-divider">
+                        <br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title ">The <a href="{% url 'team' %}"><span class="text-info">Team</span></a> also meets every week to discuss project progress and team science.</h5>
+                            </div> 
+                            <img class="mr-3 align-self-center" style="max-width: 30vw;" src="{% static 'portal/img/catcch/zoom.jpg' %}" alt="Generic placeholder image">
+                        </li>
+                        <hr class="featurette-divider">
+                        <li class="media">
+                            <img class="mr-3 align-self-center" style="max-width: 40vw;" src="{% static 'portal/img/catcch/design.png' %}" alt="Generic placeholder image">
+                        </li>
+                        <br>
+                        <hr class="featurette-divider">
+                        <br>
+                </div>			
+            </div><!--- END CONTAINER -->		
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

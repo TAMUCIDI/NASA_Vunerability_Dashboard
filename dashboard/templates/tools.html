@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <!-- <link rel="stylesheet" href="/static/portal/css/news.css"> -->
+{% endblock stylesheets %}
+{% load static %}
+<style>
+    .high-res a:hover {
+        color: blue;
+    }
+    p a{
+        color: black;
+    }
+</style>
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            <div class="container">
+                <div class="section-title text-center">
+                    <br>
+                    <h1 style="text-decoration: underline;">TOOLS</h1>
+                    <!-- <h3 class="text-info font-weight-bold">Ensuring sustainability of west coast fisheries</h3> -->
+                </div>
+
+                <hr class="featurette-divider">
+                <br>
+                
+                <div class="section-title text-center">
+                    <table>
+                        <tr>
+                            <td width="33.33%">
+                                <img class="rounded-circle"
+                                    src="/static/portal/img/catcch/rt1.png"
+                                    alt="Generic placeholder image" width="200" height="200">
+                            </td>
+                            <td width="33.33%">
+                                <img class="rounded-circle"
+                                    src="/static/portal/img/catcch/rt2.png"
+                                    alt="Generic placeholder image" width="200" height="200">
+                            </td>
+                            <td width="33.33%">
+                                <img class="rounded-circle"
+                                    src="/static/portal/img/catcch/rt3.png"
+                                    alt="Generic placeholder image" width="200" height="200">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%"><h2>Research Thrust 1</h2></td>
+                            <td width="33.33%"><h2>Research Thrust 2</h2></td>
+                            <td width="33.33%"><h2>Research Thrust 3</h2></td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <p style="color: black;"><strong>Sustainable-Blue Convergence Network Using Human-Centered Design and Knowledge Co-production</strong></p>
+                            </td>
+                            <td width="33.33%">
+                                <p style="color: black;"><strong>Low and High-Resolution Climate and Biogeochemistry Fishery Forecast Model</strong></p>
+                            </td>
+                            <td width="33.33%">
+                                <p style="color: black;"><strong>Predictions for Probabilities of Squid Presence</strong></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%">
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'researchthrust1' %}" style="color: white;">View Details</a></button>
+                            </td>
+                            <td width="33.33%">
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'researchthrust2intro' %}" style="color: white;">Introduction to high resolution modeling</a></button>
+                            </td>
+                            <td width="33.33%">
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'researchthrust3' %}" style="color: white;">View Details</a></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="33.33%"></td>
+                            <td width="33.33%" style="padding-top: 25px;">
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'staticmap' %}" style="color: white;">Maps</a></button>
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'animatedmap' %}" style="color: white;">Animations</a></button>
+                            </td>
+                            <!-- <td width="33.33%"></td> -->
+                        </tr>
+                        <!-- <tr>
+                            <td width="33.33%"></td>
+                            <td width="33.33%">
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'researchthrust2intro' %}" style="color: white;">Introduction</a></button>
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'researchthrust2maps' %}" style="color: white;">Maps</a></button>
+                                <button type="button" class="btn btn-info btn-md"><a href="{% url 'researchthrust2animations' %}" style="color: white;">Animations</a></button>
+                            </td>
+                            <td width="33.33%"></td>
+                        </tr> -->
+                        
+                        
+                    </table>
+                </div>
+                <hr class="featurette-divider">
+                <br>
+            </div><!--- END CONTAINER -->		
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+<!-- {% block stylesheets %}
+    <link rel="stylesheet" href="/static/portal/css/carousel.css">
+{% endblock stylesheets %} -->
+<!-- {% load static %} -->
+<head>
+    {{ map.header.render|safe }}
+    <style>
+        .leaflet-bar-timecontrol{
+            visibility: hidden;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static 'portal/css/help.css' %}" />
+</head>
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+    <br>
+    <main role="main">
+        <section id="animated-maps" class="section-padding">
+            <div class="container">
+                <div class="section-title text-center">
+                    
+                    <h3>Climate-Biogeochemistry Model Forecast</h3>
+                    {{message|linebreaks}}
+                    <div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                        </form>
+                    </div>
+                </div>		
+                <br><br>		
+                <div class="row">
+                    <div class="col-lg-12">
+                      {{map.html.render|safe}}
+                    </div>
+                </div>
+                <br><br>
+                <button class="collapsible">How to use the Tool?</button>
+                <div class="content">
+                    <br>
+                    <p>
+                        The main factors for the Climate-Biogeochemistry Model Forecast are fish type and time. Choose the required set of options and the tool automatically updates the map with the selected combination.
+                        <br><br>
+                        There is a zoom'er on the top-left, a scale and a layer selector(you can switch map themes) on the top-right.
+                    </p>
+                    <br>
+                </div>
+
+                <script>
+                    var coll = document.getElementsByClassName("collapsible");
+                    var i;
+                    
+                    for (i = 0; i < coll.length; i++) {
+                      coll[i].addEventListener("click", function() {
+                        this.classList.toggle("active");
+                        var content = this.nextElementSibling;
+                        if (content.style.maxHeight){
+                          content.style.maxHeight = null;
+                        } else {
+                          content.style.maxHeight = content.scrollHeight + "px";
+                        } 
+                      });
+                    }
+                </script>
+
+
+            </div><!--- END CONTAINER -->		
+        </section>
+        <script>
+            {{ map.script.render|safe }}
+        </script>
+    </main>
+    <br><br><br>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

@@ -1,0 +1,51 @@
+<style>
+    .ul-class {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #2b2e3e;
+        position: sticky;
+        top: 0;
+    }
+
+    li.liitem {
+        float: left;
+    }
+
+    li.liitem a {
+        display: block;
+        color: gray;
+        text-align: center;
+        padding: 16px 20px;
+        text-decoration: none;
+    }
+
+    li.liitem a:hover:not(.active) {
+        color: white;
+        background-color: rgb(60, 75, 85);
+        text-decoration: none;
+    }
+
+    .active {
+        color: white;
+        background-color: skyblue;
+        text-decoration: none;
+    }
+</style>
+
+<ul class="ul-class">
+    <li class="liitem" style="display: inline;">
+        <a href="/">
+            <!-- <i class="lnr lnr-earth text-info"></i>&nbsp;&nbsp; -->
+            <img src="/static/portal/img/catcch/catcch_logo.png" style="width: 35px; padding-inline-end: 10px;" />
+            CATCCH
+        </a>
+    </li>
+    <li class="liitem" ><a class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="/">Home</a></li>
+    <!-- <li><a class="{% if request.resolver_match.url_name == 'staticmap' %}active{% endif %}" href="{% url 'staticmap' %}">Maps</a></li> -->
+    <!-- <li><a class="{% if request.resolver_match.url_name == 'animatedmap' %}active{% endif %}" href="{% url 'animatedmap' %}">Animations</a></li> -->
+    <li class="liitem" ><a class="{% if request.resolver_match.url_name == 'tools' %}active{% endif %}" href="{% url 'tools' %}">Tools</a></li>
+    <li class="liitem" ><a class="{% if request.resolver_match.url_name == 'team' %}active{% endif %}" href="{% url 'team' %}">Team</a></li>
+    <li class="liitem" ><a class="{% if request.resolver_match.url_name == 'news' %}active{% endif %}" href="{% url 'news' %}">News</a></li>
+</ul>

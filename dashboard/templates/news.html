@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/static/portal/css/news.css">
+{% endblock stylesheets %}
+{% load static %}
+
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            
+          <!-- The Timeline -->
+          <div class="timeline-container">
+            <ul class="timeline">
+            <!-- Item 1 -->
+                <li>
+                <div class="direction-l">
+                  <div class="flag-wrapper">
+                    <span class="flag wbg">March 31 - April 1, 2022</span>
+                  </div>
+                  <div class="desc">in person group meeting, Houston.</div>
+                </div>
+              </li>
+
+              <!-- Item 2 -->
+              <li>
+                <div class="direction-r">
+                  <div class="flag-wrapper">
+                    <span class="flag wbg">March 9, 2022</span>
+                  </div>
+                  <div class="desc">Dr. Piers Chapman will give a presentation about our project to the PFMC council.</div>
+                </div>
+              </li>
+              
+              <!-- Item 3 Focsued -->
+              <li>
+                <div class="direction-l">
+                  <div class="flag-wrapper">
+                    <span class="flag xl">Feb 28, 2022</span>
+                  </div>
+                  <div class="desc">The team has completed fifteen interviews to fishery managers, scientists, and policy-makers.</div>
+                </div>
+              </li>
+
+              <!-- Item 4 -->
+              <li>
+                <div class="direction-r">
+                  <div class="flag-wrapper">
+                    <span class="flag wbg">November 16, 2021</span>
+                  </div>
+                  <div class="desc">Dr. Piers Chapman gave a presentation about our project to the PFMC council.</div>
+                </div>
+              </li>
+
+              <!-- Item 5 -->
+              <li>
+                <div class="direction-l">
+                  <div class="flag-wrapper">
+                    <span class="flag wbg">Oct 26th, 2021</span>
+                  </div>
+                  <div class="desc">Texas A&M Today. NSF funds Texas A&M research on west coast fisheries management. <a href="https://today.tamu.edu/2021/10/26/nsf-funds-texas-am-research-on-west-coast-fisheries-management/"><span class="text-info">[link]</span></a></div>
+                </div>
+              </li>
+
+              <!-- Item 6 -->
+              <li>
+                <div class="direction-r">
+                  <div class="flag-wrapper">
+                    <span class="flag wbg">September 10, 2021</span>
+                  </div>
+                  <div class="desc">The team received official notification of award from NSF.</div>
+                </div>
+              </li>
+              
+            </ul>
+          </div>
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

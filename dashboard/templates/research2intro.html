@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <!-- <link rel="stylesheet" href="/static/portal/css/news.css"> -->
+{% endblock stylesheets %}
+{% load static %}
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            <div class="container">
+                <div class="section-title text-center">
+                    <br>
+                    <h1 style="text-decoration: underline;">RESEARCH THRUST - 2</h1>
+                    <h5 class="text-info">This page is used to introduce the advantages of using high resolution model to support
+                        modeling team’s Phase II tasks.</h5>
+                </div>
+
+                <hr class="featurette-divider">
+
+                <div>
+                    <div class="card-body">
+                        <li class="media">
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_comp_chl.mp4' %}" type="video/mp4"></source>
+                              </video>
+                            <div class="media-body align-self-center" style="padding-left: 10px;">
+                              <h5 class="card-title"><span class="text-info">Animation of Chlorophyll concentration from low-resolution (LR) and high-resolution (HR) models during 1987</span></h5>
+                              <h6 class="card-title">Note: HR data is only available till 1991 but that for LR is available till 2020. The mid-March to mid-November period shows very fine-scale features in the HR case.</h6>
+                            </div>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">Chlorophyll concentration from LR case in a different projection. These type of plots/movies will help to demonstrate that the model is a global model, without the typical drawbacks of regional models (eg. EcoCAST).</span></h5>
+                            </div> 
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_lr_chl_1.mp4' %}" type="video/mp4"></source>
+                            </video>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                        <li class="media">
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_hr_3var.mp4' %}" type="video/mp4"></source>
+                            </video>
+                            <div class="media-body align-self-center" style="padding-left: 10px;">
+                                <h5 class="card-title "><span class="text-info">This Animation shows the capability of our HR configuration in resolving near-coastal fine scale processes. The sea surface temperature (SST) in the first panel is cooler near the coast during the upwelling season (May-Sep). </span></h5>
+                            </div>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">A view of the anomalies in model fields during 2014-2015 Marine Heat Wave (the blob). Monthly data is used here. 
+                                    SST field clearly shows the warm anomalies associated with the blob (compare 2014-Sep with that in <a href="https://www.fisheries.noaa.gov/feature-story/new-marine-heatwave-emerges-west-coast-resembles-blob"> here</a>). 
+                                    </span></h5>
+                            </div> 
+                            <video width="500" controls autoplay style="border: 5px outset #ddd; padding: 2px;">
+                                <source src="{% static 'portal/img/catcch/anim_lr_mhw.mp4' %}" type="video/mp4"></source>
+                            </video>
+                        </li>
+                        <br><br>
+                        <hr class="featurette-divider">
+                        <br><br>
+                        <li class="media">
+                            <img class="align-self-center mr-3" style="max-width: 35vw;" src="{% static 'portal/img/catcch/chlorophyll.png' %}" alt="Generic placeholder image">
+                            <div class="media-body align-self-center">
+                              <h5 class="card-title">Low-resolution model is not able to reproduce fine-scale features in chlorophyll distribution and mechanisms that control them.</h5>
+                              <h6 class="card-title">Note: There are differences between how these two versions of the models are set-up and run. So this is not an apples-to-apple comparison.</h6>
+                            </div>
+                        </li>
+                        <br>
+                        <hr class="featurette-divider">
+                        <br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">Fisheries predictions for the California Current System</span></h5>
+                            </div> 
+                            <img class="mr-3 align-self-center" style="max-width: 30vw;" src="{% static 'portal/img/catcch/fishpredictions.png' %}" alt="Generic placeholder image">
+                        </li>
+                        <hr class="featurette-divider">
+                        <li class="media">
+                            <img class="mr-3 align-self-center" style="max-width: 35vw;" src="{% static 'portal/img/catcch/bgc_predictions.png' %}" alt="Generic placeholder image">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">BGC predictions for the California Current System in June 1987</span></h5>
+                            </div>
+                        </li>
+                        <br>
+                        <hr class="featurette-divider">
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">Climate predictions for the California Current System</span><br><br>Summer Sea Surface temperature for 1991-2020 period</h5>
+                            </div>
+                            <img class="mr-3 align-self-center" style="max-width: 40vw;" src="{% static 'portal/img/catcch/climate_predictions.png' %}" alt="Generic placeholder image">
+                        </li>
+                        <hr class="featurette-divider">
+                        <li class="media">
+                            <img class="mr-3 align-self-center" style="max-width: 35vw;" src="{% static 'portal/img/catcch/upwelling.png' %}" alt="Generic placeholder image">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title"><span class="text-info">Upwelling index prediction for the California Current System</span></h5>
+                                <h6 class="card-title">Vertical velocity at the 50 m depth level is taken as the Upwelling index.</h6>
+                            </div>
+                        </li>
+                        <br>
+                </div>			
+            </div><!--- END CONTAINER -->		
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

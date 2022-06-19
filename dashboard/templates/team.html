@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/static/portal/css/team.css">
+{% endblock stylesheets %}
+{% load static %}
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            <div class="container">
+                <div class="section-title text-center">
+                    <br>
+                    <h1>Team Members</h1>
+                    <!-- <h3 class="text-info font-weight-bold">Ensuring sustainability of west coast fisheries</h3> -->
+                </div>				
+                <div class="row justify-content-md-center text-center">
+                    <div class="col-sm-2 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s" data-wow-offset="0">
+                        <div class="our-team">
+                            <div class="team_img">
+                                <img src="/static/portal/img/catcch/team/pchapman.jpeg" alt="team-image">
+                            </div>
+                            <div class="team-content">
+                                <h3 class="title">Piers Chapman</h3>
+                                <span class="post font-weight-bold"><span class="text-info">Oceanographer</span> <br>
+                                    (PI, TAMU)</span>
+                            </div>
+                        </div>
+                    </div><!--- END COL -->														
+                    <div class="col-sm-2 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s" data-wow-offset="0">
+                        <div class="our-team">
+                            <div class="team_img">
+                                <img src="/static/portal/img/catcch/team/danabasoglu.png" alt="team-image">
+                            </div>
+                            <div class="team-content">
+                                <h3 class="title">Gokhan Danabasoglu</h3>
+                                <span class="post font-weight-bold"><span class="text-info">Climate Scientist</span> <br>
+                                (Co-PI, NCAR)</span>
+                            </div>
+                        </div>
+                    </div><!--- END COL -->
+                    <div class="col-sm-2 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s" data-wow-offset="0">
+                        <div class="our-team">
+                            <div class="team_img">
+                                <img src="/static/portal/img/catcch/team/colleen.jpeg" alt="team-image">
+                            </div>
+                            <div class="team-content">
+                                <h3 class="title">Colleen Petrik</h3>
+                                <span class="post font-weight-bold"><span class="text-info">Oceanographer</span> <br>
+                                (Co-PI, UCSD)</span>
+                            </div>
+                        </div>
+                    </div><!--- END COL -->                    			
+                </div><!--- END ROW -->
+                <div class="row justify-content-md-center text-center">
+                    <div class="col-sm-2 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.5s" data-wow-offset="0">
+                        <div class="our-team">
+                            <div class="team_img">
+                                <img src="/static/portal/img/catcch/team/stephens.jpeg" alt="team-image">
+                            </div>
+                            <div class="team-content">
+                                <h3 class="title">Keri Stephens</h3>
+                                <span class="post font-weight-bold"><span class="text-info">Social Scientist</span> <br>
+                                (Co-PI, UT-Austin)</span>
+                            </div>
+                        </div>
+                    </div><!--- END COL -->
+                    <div class="col-sm-2 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.6s" data-wow-offset="0">
+                        <div class="our-team">
+                            <div class="team_img">
+                                <img src="/static/portal/img/catcch/team/zhe.jpeg" alt="team-image">
+                            </div>
+                            <div class="team-content">
+                                <h3 class="title">Zhe Zhang</h3>
+                                <span class="post font-weight-bold"><span class="text-info">Geographer</span> <br>
+                                (Co-PI, TAMU)</span>
+                            </div>
+                        </div>
+                    </div><!--- END COL -->	
+                </div>
+            </div><!--- END CONTAINER -->		
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

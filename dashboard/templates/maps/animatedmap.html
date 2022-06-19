@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% load static %}
+<head>
+    {{ map.header.render|safe }}
+    <link rel="stylesheet" href="{% static 'portal/css/help.css' %}" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+    <br>
+    <main role="main">
+        <section id="animated-maps" class="">
+            <div class="container">
+                <div class="row">
+                    <div class="col-2" style="align-self: center;">
+                        <a href="{% url 'tools' %}">
+                            <button type="button" class="btn btn-info">Go Back</button>
+                        </a>
+                    </div>
+                    <div class="col-10 section-title text-center">
+                        <h3>Climate-Biogeochemistry Model Forecast Animation through Time</h3>
+                        <br>
+                        <div>
+                            <form method="POST">
+                                {% csrf_token %}
+                                {{ form }}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <br>			
+                <div class="row">
+                    <!-- <div class="col-lg-12"> -->
+                        <div class="col-5">
+                            {{map.html.render|safe}}
+                        </div>
+                        <div class="col-7">        
+                            <div id="container" style="width: 100%;">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <div id="container" style="width: 100%;">
+                                <canvas id="myChartSD"></canvas>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+                <br><br>
+                <div class="row">
+                    <button class="collapsible">How to use the Animation Tool?</button>
+                    <div class="content" style="width: 100%;">
+                        <br>
+                        <p>Select the type of fish, the tool automatically fetches the data and starts the animation.</p>
+                        <br>
+                    </div>
+                    <button class="collapsible">What are the uses?</button>
+                    <div class="content" style="width: 100%;">
+                        <br>
+                        <p>This tool provides the insights of the variation of fish through time versus the geographical location.</p>
+                        <br>
+                    </div>
+                    <button class="collapsible">How to extract the Data?</button>
+                    <div class="content" style="width: 100%;">
+                        <br>
+                        <p>There is a slider in the bottom of the map with time and frames as options. It has a seek function which allows to seek to a particular time. The frames(fps) control the animation speed. You can zoom or pause and play the animation. The color label on the top right shows the corresponding scale of the fish to the color.</p>
+                        <br>
+                            </div>
+                </div>
+            </div><!--- END CONTAINER -->		
+        </section>
+        <script>
+            {{ map.script.render|safe }}
+            var coll = document.getElementsByClassName("collapsible");
+            var i;
+
+            for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.maxHeight){
+                content.style.maxHeight = null;
+                } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+                } 
+            });
+            }
+
+            var labels = {{labels | safe}};
+
+            function getStandardDeviation (array) {
+                const n = array.length
+                const mean = array.reduce((a, b) => a + b) / n
+                return Math.sqrt(array.map(x => Math.pow(x - mean, 2)).reduce((a, b) => a + b) / n)
+            }
+
+            function getMean(array){
+                const n = array.length
+                const mean = array.reduce((a, b) => a + b) / n
+                return mean
+            }
+            
+
+            var all_time_data = {{all_time_data}};
+            
+            var sd = all_time_data.map(x => getStandardDeviation(x.map(i => i[2])))
+
+            var data = [];
+            var data_1 = [];
+            var data_2 = [];
+            var prev = 100;
+            for (var i=0;i<sd.length;i++) {
+                prev = sd[i];
+                let mean = getMean(all_time_data[i].map(x => x[2]))
+                data.push({x: i, y: mean})
+                data_1.push({x: i, y: mean + sd[i]})
+                data_2.push({x: i, y: mean - sd[i]})
+            }
+
+
+            
+            var delayBetweenPoints = 100;
+            var started = {};
+            var started1 = {};
+            var started2 = {};
+            var ctx = document.getElementById("myChart").getContext("2d");
+            var chart = new Chart(ctx, {
+            type: "line",
+            data: {
+                datasets: [
+                {
+                    label: 'Fish Average Mass Forecast',
+                    backgroundColor: "transparent",
+                    borderColor: "rgb(255, 99, 132)",
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    data: data,
+                    fill: true,
+                    animation: (context) => {
+                        var delay = 0;
+                        var index = context.dataIndex;
+                        var chart = context.chart;
+                        if (!started[index]) {
+                            delay = index * delayBetweenPoints;
+                            started[index] = true;
+                        }
+                        
+                        var {y} = index > 0 ? chart.getDatasetMeta(0).data[index-1].getProps(['y'], true) : {y: chart.scales.y.getPixelForValue(100)};
+                        // console.log(index > 0 ? chart.getDatasetMeta(0).data[index-1].getProps(['x','y'], true) : {x: 0, y: chart.scales.y.getPixelForValue(100)})
+                        
+                        return {
+                            y: {
+                                easing: "linear",
+                                duration: delayBetweenPoints * 500,
+                                from: y,
+                                delay
+                            },
+                            skip: {
+                                type: 'boolean',
+                                duration: delayBetweenPoints,
+                                from: true,
+                                to: false,
+                                delay: delay
+                            }
+                        };
+                    }
+                },
+                {
+                    label: 'Fish Average Mass +1 Standard Deviation',
+                    backgroundColor: "transparent",
+                    borderColor: "rgb(76 185 217)",
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    data: data_1,
+                    fill: true,
+                    animation: (context) => {
+                        var delay = 0;
+                        var index = context.dataIndex;
+                        var chart = context.chart;
+                        if (!started1[index]) {
+                            delay = index * delayBetweenPoints;
+                            started1[index] = true;
+                        }
+                        
+                        var {y} = index > 0 ? chart.getDatasetMeta(0).data[index-1].getProps(['y'], true) : {y: chart.scales.y.getPixelForValue(100)};
+                        // console.log(index > 0 ? chart.getDatasetMeta(0).data[index-1].getProps(['x','y'], true) : {x: 0, y: chart.scales.y.getPixelForValue(100)})
+                        
+                        return {
+                            y: {
+                                easing: "linear",
+                                duration: delayBetweenPoints * 500,
+                                from: y,
+                                delay
+                            },
+                            skip: {
+                                type: 'boolean',
+                                duration: delayBetweenPoints,
+                                from: true,
+                                to: false,
+                                delay: delay
+                            }
+                        };
+                    }
+                },
+                {
+                    label: 'Fish Average Mass -1 Standard Deviation',
+                    backgroundColor: "transparent",
+                    borderColor: "#91cf60",
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    data: data_2,
+                    fill: true,
+                    animation: (context) => {
+                        var delay = 0;
+                        var index = context.dataIndex;
+                        var chart = context.chart;
+                        if (!started2[index]) {
+                            delay = index * delayBetweenPoints;
+                            started2[index] = true;
+                        }
+                        
+                        var {y} = index > 0 ? chart.getDatasetMeta(0).data[index-1].getProps(['y'], true) : {y: chart.scales.y.getPixelForValue(100)};
+                        // console.log(index > 0 ? chart.getDatasetMeta(0).data[index-1].getProps(['x','y'], true) : {x: 0, y: chart.scales.y.getPixelForValue(100)})
+                        
+                        return {
+                            y: {
+                                easing: "linear",
+                                duration: delayBetweenPoints * 500,
+                                from: y,
+                                delay
+                            },
+                            skip: {
+                                type: 'boolean',
+                                duration: delayBetweenPoints,
+                                from: true,
+                                to: false,
+                                delay: delay
+                            }
+                        };
+                    }
+                },
+                ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        },
+                        type: 'linear',
+                        ticks: {
+                            min: 0,
+                            max: 12,
+                            stepSize: 1,
+                            maxTicksLimit: 13,
+                            callback: function(value, index){
+                                if(value>=labels.length)
+                                    return labels[labels.length-1]
+                                else
+                                    return labels[value];
+                            }
+                            
+                        }
+                    },
+                    y: {
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Average Fish Mass'
+                        },
+                    }
+                }
+            },
+            plugins: [{
+                id: 'force_line_update',
+                beforeDatasetDraw(chart, ctx) {
+                ctx.meta.dataset.points = ctx.meta.data;
+                }
+            }]
+            });
+            
+            document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+            
+
+            // console.log(sd);
+        </script>
+    </main>
+    <br><br><br>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>

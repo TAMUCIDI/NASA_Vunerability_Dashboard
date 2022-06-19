@@ -1,0 +1,29 @@
+<html>
+<head>
+  {{ map.header.render|safe }}
+</head>
+
+<body>
+  <div style="padding: 2%;">
+  <h1>Interactive Map</h1>
+  <h3>Map on which the user can draw a bounding box to select the fishery location.</h3>
+  <div class="row">
+    <div class="col-lg-12">
+      {{map.html.render|safe}}
+    </div>
+  </div>
+  
+  <form method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
+    <input type="submit" name="coordinates" value="Submit" style="display: none;" />
+  </form>
+
+  </div>
+  <script>
+    {{ map.script.render|safe }}
+  </script>
+  <br><br><br>
+</body>
+</html>

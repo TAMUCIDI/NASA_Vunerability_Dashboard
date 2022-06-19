@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" class="material-style layout-fixed">
+{% include 'includes/header.html' %}
+{% block stylesheets %}
+    <!-- <link rel="stylesheet" href="/static/portal/css/news.css"> -->
+{% endblock stylesheets %}
+{% load static %}
+<body>
+    <header>
+        {% include 'includes/navbar.html' %}
+    </header>
+
+    <main role="main" style="background-color: white;">
+        <section id="team" class="team_member section-padding" style="background-image: url('/static/portal/img/catcch/catcch_logo_semi_dark.png'); background-size: 60%; background-repeat: space; background-position: center 0vh;">
+            <div class="container">
+                <div class="section-title text-center">
+                    <br>
+                    <h1 style="text-decoration: underline;">RESEARCH THRUST - 2</h1>
+                    <!-- <h3 class="text-info font-weight-bold">Ensuring sustainability of west coast fisheries</h3> -->
+                </div>
+
+                <hr class="featurette-divider">
+                    <!-- <iframe width="100%" height="800px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://tamu.maps.arcgis.com/apps/dashboards/11faef0eabae425e809cd1049d63270c"></iframe> -->
+                <hr class="featurette-divider">
+
+                <div>
+                    <div class="card-body">
+                        <li class="media">
+                            <img class="align-self-center mr-3" style="max-width: 35vw;" src="{% static 'portal/img/catcch/chlorophyll.png' %}" alt="Generic placeholder image">
+                            <div class="media-body align-self-center">
+                              <h5 class="card-title">Low-resolution model is not able to reproduce fine-scale features in chlorophyll distribution and mechanisms that control them.</h5>
+                              <h6 class="card-title">Note: There are differences between how these two versions of the models are set-up and run. So this is not an apples-to-apple comparison.</h6>
+                            </div>
+                        </li>
+                        <br>
+                        <hr class="featurette-divider">
+                        <br>
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">Fisheries predictions for the California Current System</span></h5>
+                            </div> 
+                            <img class="mr-3 align-self-center" style="max-width: 30vw;" src="{% static 'portal/img/catcch/fishpredictions.png' %}" alt="Generic placeholder image">
+                        </li>
+                        <hr class="featurette-divider">
+                        <li class="media">
+                            <img class="mr-3 align-self-center" style="max-width: 35vw;" src="{% static 'portal/img/catcch/bgc_predictions.png' %}" alt="Generic placeholder image">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title "><span class="text-info">BGC predictions for the California Current System in June 1987</span></h5>
+                            </div>
+                        </li>
+                        <br>
+                        <hr class="featurette-divider">
+                        <li class="media">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title ">Climate predictions for the California Current System<br><br>Summer Sea Surface temperature for 1991-2020 period</h5>
+                            </div>
+                            <img class="mr-3 align-self-center" style="max-width: 40vw;" src="{% static 'portal/img/catcch/climate_predictions.png' %}" alt="Generic placeholder image">
+                        </li>
+                        <hr class="featurette-divider">
+                        <li class="media">
+                            <img class="mr-3 align-self-center" style="max-width: 35vw;" src="{% static 'portal/img/catcch/upwelling.png' %}" alt="Generic placeholder image">
+                            <div class="media-body align-self-center">
+                                <h5 class="card-title"><span class="text-info">Upwelling index prediction for the California Current System</span></h5>
+                                <h6 class="card-title">Vertical velocity at the 50 m depth level is taken as the Upwelling index.</h6>
+                            </div>
+                        </li>
+                        <br>
+                </div>			
+            </div><!--- END CONTAINER -->		
+        <br><br><br>
+        </section>
+        
+    </main>
+    <!-- FOOTER -->
+    {% include 'includes/footer.html' %}
+    <!-- FOOTER -->
+</body>
+</html>
