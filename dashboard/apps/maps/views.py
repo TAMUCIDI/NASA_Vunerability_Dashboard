@@ -19,6 +19,8 @@ from django import forms
 
 import logging
 import json
+import os
+from apps.maps.dataload import dataLoader
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -34,6 +36,12 @@ def Map(request):
         zoom_start=6,
         height=900
     )
+    #load polygons
+    cwd = os.path.dirname(os.path.realpath(__file__))
+    gjsonFilePath = cwd + "/data/polygons.geojson"
+    loader = dataLoader(gjsonFilePath)
+    gjson = folium.GeoJson(loader.get_gdf())
+    gjson.add_to(m)
 
     m.add_to(figure)
     draw = plugins.Draw(export=False)

@@ -3,7 +3,7 @@ from apps.maps.models import Maps
 
 class MapForm(forms.Form):
     Speed90 = forms.FloatField(
-        label='Variables ',
+        label='Weight of Wind Speed 90m ',
         widget=forms.NumberInput(
             attrs={
                 'onchange': 'form.submit();'
@@ -12,7 +12,7 @@ class MapForm(forms.Form):
     )
 
     ShorelineDist = forms.FloatField(
-        label='Variables ',
+        label='Weight of Shoreline Distance ',
         widget=forms.NumberInput(
             attrs={
                 'onchange': 'form.submit();'
@@ -21,7 +21,7 @@ class MapForm(forms.Form):
     )
 
     MiliratyDist = forms.FloatField(
-        label='Variables ',
+        label='Weight of Military Distance ',
         widget=forms.NumberInput(
             attrs={
                 'onchange': 'form.submit();'
@@ -30,7 +30,7 @@ class MapForm(forms.Form):
     )
 
     Landing19 = forms.FloatField(
-        label='Variables ',
+        label='Weight of Landing in 2019 ',
         widget=forms.NumberInput(
             attrs={
                 'onchange': 'form.submit();'
