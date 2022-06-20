@@ -39,7 +39,7 @@ def Map(request):
             MilitaryDist = form.cleaned_data['MilitaryDist']
             Landing19 = form.cleaned_data['Landing19']
 
-            
+
     figure = folium.Figure()
     m = folium.Map(
         location=[35, -125],
@@ -53,7 +53,7 @@ def Map(request):
     gjson = folium.GeoJson(loader.get_gdf())
     gjson.add_to(m)
     
-    m.add_to(figure)
+    #m.add_to(figure)
     draw = plugins.Draw(export=False)
     draw.add_to(m)
 
@@ -72,6 +72,8 @@ def Map(request):
         lng_formatter=formatter,
     ).add_to(m)
 
+    m.get_root().render()
+    m.add_to(figure)
     figure.render()
     form = MapForm()
         #form.fields['coords'].widget = forms.HiddenInput()
