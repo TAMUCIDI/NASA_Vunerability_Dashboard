@@ -30,6 +30,16 @@ def index(request):
     return HttpResponse("Hello World")
 
 def Map(request):
+    if request.method == 'POST':
+        form = MapForm(request.POST)
+        if form.is_valid():
+            fishingArea = form.cleaned_data['fishingArea']
+            Speed90 = form.cleaned_data['Speed90']
+            ShorelineDist = form.cleaned_data['ShorelineDist']
+            MilitaryDist = form.cleaned_data['MilitaryDist']
+            Landing19 = form.cleaned_data['Landing19']
+
+            
     figure = folium.Figure()
     m = folium.Map(
         location=[35, -125],
@@ -42,7 +52,7 @@ def Map(request):
     loader = dataLoader(gjsonFilePath)
     gjson = folium.GeoJson(loader.get_gdf())
     gjson.add_to(m)
-
+    
     m.add_to(figure)
     draw = plugins.Draw(export=False)
     draw.add_to(m)
@@ -64,5 +74,5 @@ def Map(request):
 
     figure.render()
     form = MapForm()
-    #form.fields['coords'].widget = forms.HiddenInput()
+        #form.fields['coords'].widget = forms.HiddenInput()
     return render(request, 'maps/plotmap.html', {"map": figure, "form" : form})

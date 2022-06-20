@@ -17,9 +17,9 @@
     {% csrf_token %}
     {{form.as_p}}
     <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
-    <input type="submit" name="coordinates" value="Submit" style="display: none;" />
+    <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
+    <input type="submit" value="Submit">
   </form>
-
   </div>
   <script>
     {{ map.script.render|safe }}
