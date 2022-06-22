@@ -2,21 +2,39 @@ import geopandas as gpd
 import os
 
 cwd = os.path.dirname(os.path.realpath(__file__))
-polygon_geoJson_file_path = cwd + "/data/polygons.geojson"
+#polygon_geoJson_file_path = cwd + "/data/polygons.geojson"
+polygon_geoJson_file_path = cwd + "/data/divided_polygons_SpatialJoin.geojson"
+polygon_shapefile_file_path = cwd + "/data/divided_polygons_SpatialJoin12.shp"
 
 class dataLoader():
-    filePath = None
-    gdf = None
+    geojson_filePath = None
+    shapefile_filePath = None
+    gdf_geojson = None
+    gdf_shapefile = None
+    geometry = None
+    datasets = None
 
-    def __init__(self, filePath) -> None:
-        self.filePath = filePath
+    def __init__(self, geojson_filePath, shapefile_filePath) -> None:
+        self.geojson_filePath = geojson_filePath
+        self.shapefile_filePath = shapefile_filePath
         try:
-            self.gdf = gpd.read_file(self.filePath)
+            self.gdf_geojson = gpd.read_file(self.geojson_filePath)
+            self.gdf_shapefile = gpd.read_file(self.shapefile_filePath)
         except:
-            print("failed to load geoJson file:" + filePath)
+            print("failed to load geoJson file:" + geojson_filePath)
+
+        self.geometry = self.gdf_shapefile.to_crs("EPSG:4326").geometry
+        self.datasets = self.gdf_geojson[['Speed_90', 'Mili_Dist', 'Shoreline_Dist', '2019','2020']]
 
     def get_geometry(self):
-        return self.gdf.geometry
+        return self.geometry
     
+    def get_dataSet(self):
+        return self.datasets
+
     def get_gdf(self):
-        return self.gdf
+        return gpd.GeoDataFrame(
+            data=self.datasets,
+            geometry=self.geometry,
+            crs="EPSG:4326"
+        )
