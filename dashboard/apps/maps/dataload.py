@@ -55,6 +55,9 @@ class dataLoader():
         + weightDict['MilitaryDistWeight'] * dfNorm['Mili_Dist'] \
         - weightDict['Landing19Weight'] * dfNorm['2019']
 
+        for i,s in enumerate(score):
+            score[i] = (score[i] - score.min())/(score.max() - score.min())
+
         objectId = np.array(self.datasets['OBJECTID'])
 
         dataDf = pd.DataFrame(
