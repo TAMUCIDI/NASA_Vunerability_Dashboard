@@ -1,5 +1,9 @@
 import geopandas as gpd
+import pandas as pd
+import numpy as np
 import os
+from folium import GeoJson
+from apps.maps.dataprocess import normalize
 
 cwd = os.path.dirname(os.path.realpath(__file__))
 #polygon_geoJson_file_path = cwd + "/data/polygons.geojson"
@@ -24,7 +28,7 @@ class dataLoader():
             print("failed to load geoJson file:" + geojson_filePath)
 
         self.geometry = self.gdf_shapefile.to_crs("EPSG:4326").geometry
-        self.datasets = self.gdf_geojson[['Speed_90', 'Mili_Dist', 'Shoreline_Dist', '2019','2020']]
+        self.datasets = self.gdf_geojson[['OBJECTID', 'Area_Name', 'Speed_90', 'Mili_Dist', 'Shoreline_Dist', '2019','2020']]
 
     def get_geometry(self):
         return self.geometry
@@ -38,3 +42,30 @@ class dataLoader():
             geometry=self.geometry,
             crs="EPSG:4326"
         )
+
+    def get_score_geoJson(self, weightDict):
+        df = pd.DataFrame(
+            self.get_gdf()[['Speed_90', 'Mili_Dist', 'Shoreline_Dist', '2019','2020']]
+        )
+        dfNorm = normalize(df)
+
+        #weighted score
+        score = weightDict['Speed90Weight']*dfNorm['Speed_90'] \
+        - weightDict['ShorelineDistWeight'] * dfNorm['Shoreline_Dist'] \
+        + weightDict['MilitaryDistWeight'] * dfNorm['Mili_Dist'] \
+        - weightDict['Landing19Weight'] * dfNorm['2019']
+
+        objectId = np.array(self.datasets['OBJECTID'])
+
+        dataDf = pd.DataFrame(
+            data={
+                    'objectId': objectId,
+                    'score': score,
+                }
+        )
+
+        return gpd.GeoDataFrame(
+                data=dataDf,
+                geometry= self.geometry
+                ), dataDf
+        

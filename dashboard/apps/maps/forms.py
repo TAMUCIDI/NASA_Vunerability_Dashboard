@@ -10,20 +10,24 @@ class MapForm(forms.Form):
     )
     Speed90 = forms.FloatField(
         label='Weight of Wind Speed 90m ',
-        widget=forms.NumberInput()
+        widget=forms.NumberInput(),
+        initial=1
     )
 
     ShorelineDist = forms.FloatField(
         label='Weight of Shoreline Distance ',
-        widget=forms.NumberInput()
+        widget=forms.NumberInput(),
+        initial=1,
     )
 
     MilitaryDist = forms.FloatField(
         label='Weight of Military Distance ',
-        widget=forms.NumberInput()
+        widget=forms.NumberInput(),
+        initial=1,
     )
 
     Landing19 = forms.FloatField(
         label='Weight of Landing in 2019 ',
-        widget=forms.NumberInput()
+        widget=forms.NumberInput(),
+        initial=1,
     )

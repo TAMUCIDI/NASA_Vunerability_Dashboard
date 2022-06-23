@@ -11,7 +11,7 @@ from django.views.generic import TemplateView
 
 #folium
 import folium
-from folium import plugins
+#from folium import plugins, Choropleth, Figure, Map, GeoJson, FeatureGroup, LayerControl
 import branca.colormap as cm
 
 from apps.maps.forms import MapForm
@@ -54,11 +54,19 @@ def Map(request):
     shpFilePath = cwd + "/data/divided_polygons_SpatialJoin12.shp"
     loader = dataLoader(gjsonFilePath, shpFilePath)
 
-    #choropleth layer
-    geometry = loader.get_geometry()
-    
+    #score geo data frame
+    scoreGeoJson, dataDf = loader.get_score_geoJson(weightDict)
+    #choropleth
+    folium.Choropleth(
+        geo_data=scoreGeoJson,
+        data=dataDf,
+        columns=['objectId', 'score'],
+        key_on='feature.properties.objectId',
+        fill_color='OrRd'
+    ).add_to(m)
 
     #polygon Boundry Layer
+    '''
     gdf = loader.get_gdf()
     gjson = folium.GeoJson(gdf)
     
@@ -68,6 +76,7 @@ def Map(request):
     )
     m.add_child(polygonLayer)
     gjson.add_to(polygonLayer)
+    '''
 
     #heatmap Layer
     '''
@@ -82,7 +91,7 @@ def Map(request):
     
 
     formatter = "function(num) {return L.Util.formatNum(num, 3) + ' º ';};"
-    plugins.MousePosition(
+    folium.plugins.MousePosition(
         position="topright",
         separator=" | ",
         empty_string="NaN",
