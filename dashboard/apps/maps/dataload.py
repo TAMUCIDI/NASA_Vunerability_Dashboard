@@ -58,7 +58,13 @@ class dataLoader():
         for i,s in enumerate(score):
             score[i] = (score[i] - score.min())/(score.max() - score.min())
 
+        #protected area
+        protected = self.get_gdf()['Area_Name']
+
         objectId = np.array(self.datasets['OBJECTID'])
+        for index, value in protected.items():
+            if value != None:
+                score[index] = 0
 
         dataDf = pd.DataFrame(
             data={

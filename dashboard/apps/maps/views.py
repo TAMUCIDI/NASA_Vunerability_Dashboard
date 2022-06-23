@@ -62,7 +62,10 @@ def Map(request):
         data=dataDf,
         columns=['objectId', 'score'],
         key_on='feature.properties.objectId',
-        fill_color='OrRd'
+        fill_color='OrRd',
+        name='Wind Energy Suitability Score Choropleth',
+        line_weight=0.1,
+        highlight=True
     ).add_to(m)
 
     #polygon Boundry Layer
