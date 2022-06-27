@@ -14,3 +14,8 @@ ADD requirements.txt /code/
 RUN pip install -r requirements.txt
 # 将当前目录复制到容器的 code 目录
 ADD . /code/
+
+RUN /bin/bash -c ./init.sh
+
+CMD /bin/bash -c ./start.sh
+EXPOSE 8000
