@@ -25,6 +25,9 @@ import os
 from apps.maps.dataload import dataLoader
 from apps.maps.dataprocess import init_input_dict, construct_heatmap_gdf, update_weight_dict
 
+from plotly.subplots import make_subplots
+import plotly.graph_objects as go
+
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
@@ -113,4 +116,21 @@ def Map(request):
     figure.render()
     form = MapForm()
         #form.fields['coords'].widget = forms.HiddenInput()
-    return render(request, 'maps/plotmap.html', {"map": figure, "form" : form})
+
+    #graph
+    df = loader.datasets
+
+    fig = make_subplots(rows=1)
+    fig.add_trace(go.Box(y=df["Speed_90"], name="All"))
+    for portName, groupData in df.groupby(["NAME"]):
+        fig.add_trace(go.Box(y=groupData["Speed_90"], name=portName))
+
+    graph = fig.to_html(full_html=False, default_height=500, default_width=700)
+
+    context = {
+        "map": figure,
+        "form": form,
+        "graph": graph,
+    }
+
+    return render(request, 'maps/plotmap.html', context)

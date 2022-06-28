@@ -12,6 +12,15 @@
       {{map.html.render|safe}}
     </div>
   </div>
+  <div class="row">
+    <div class="col-lg-dash">
+      {% if graph %}
+        {{ graph|safe }}
+      {% else %}
+        <p>No graph was provided.</p>
+      {% endif %}
+    </div>
+  </div>
   
   <form method="post">
     {% csrf_token %}
