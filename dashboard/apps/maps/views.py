@@ -14,7 +14,7 @@ import folium
 #from folium import plugins, Choropleth, Figure, Map, GeoJson, FeatureGroup, LayerControl
 import branca.colormap as cm
 
-from apps.maps.forms import MapForm
+from apps.maps.forms import MapForm, FishingAreaChoiceForm
 from django.http import HttpResponse
 from django import forms
 
@@ -40,14 +40,15 @@ def Map(request):
     weightDict = init_input_dict()
 
     if request.method == 'POST':
-        form = MapForm(request.POST)
-        if form.is_valid():
-            weightDict = update_weight_dict(weightDict, form.cleaned_data)
+        mapForm = MapForm(request.POST)
+        if mapForm.is_valid():
+            weightDict = update_weight_dict(weightDict, mapForm.cleaned_data)
 
     figure = folium.Figure()
     m = folium.Map(
         location=[35, -125],
         zoom_start=6,
+        width=900,
         height=900
     )
 
@@ -71,31 +72,6 @@ def Map(request):
         highlight=True
     ).add_to(m)
 
-    #polygon Boundry Layer
-    '''
-    gdf = loader.get_gdf()
-    gjson = folium.GeoJson(gdf)
-    
-    polygonLayer = folium.FeatureGroup(
-        name='Polygon Boundry',
-        show=True,
-    )
-    m.add_child(polygonLayer)
-    gjson.add_to(polygonLayer)
-    '''
-
-    #heatmap Layer
-    '''
-    heatMap = construct_heatmap_gdf(gdf, weightDict)
-    heatMapLayer = folium.FeatureGroup(
-        name='Heat Map',
-        shoe=True,
-    )
-    m.add_child(heatMapLayer)
-    heatMap.add_to(heatMapLayer)
-    '''
-    
-
     formatter = "function(num) {return L.Util.formatNum(num, 3) + ' º ';};"
     folium.plugins.MousePosition(
         position="topright",
@@ -114,7 +90,8 @@ def Map(request):
     m.get_root().render()
     m.add_to(figure)
     figure.render()
-    form = MapForm()
+    mapForm = MapForm()
+    fishingAreaChoiceForm = FishingAreaChoiceForm()
         #form.fields['coords'].widget = forms.HiddenInput()
 
     #graph
@@ -129,7 +106,8 @@ def Map(request):
 
     context = {
         "map": figure,
-        "form": form,
+        "MapForm": mapForm,
+        "FishingAreaForm": fishingAreaChoiceForm,
         "graph": graph,
     }
 

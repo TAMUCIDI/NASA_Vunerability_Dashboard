@@ -7,13 +7,15 @@
   <div style="padding: 2%;">
   <h1>Interactive Map</h1>
   <h3>Map on which the user can draw a bounding box to select the fishery location.</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{FishingAreaForm.as_p}}
+  </form>
   <div class="row">
-    <div class="col-lg-12">
+    <div class="col-5">
       {{map.html.render|safe}}
     </div>
-  </div>
-  <div class="row">
-    <div class="col-lg-dash">
+    <div class="col-7">
       {% if graph %}
         {{ graph|safe }}
       {% else %}
@@ -24,7 +26,7 @@
   
   <form method="post">
     {% csrf_token %}
-    {{form.as_p}}
+    {{MapForm.as_p}}
     <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
     <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
     <input type="submit" value="Submit">
