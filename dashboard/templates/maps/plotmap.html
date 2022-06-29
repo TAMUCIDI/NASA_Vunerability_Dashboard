@@ -15,13 +15,30 @@
     <div class="col-5">
       {{map.html.render|safe}}
     </div>
-    <div class="col-7">
-      {% if graph %}
-        {{ graph|safe }}
-      {% else %}
-        <p>No graph was provided.</p>
-      {% endif %}
+    <div class="row">
+      <div class="col-7">
+        {% if SpeedGraph %}
+          {{ SpeedGraph|safe }}
+        {% else %}
+          <p>No graph was provided.</p>
+        {% endif %}
+      </div>
+      <div class="col-7">
+        {% if MiliGraph %}
+          {{ MiliGraph|safe }}
+        {% else %}
+          <p>No graph was provided.</p>
+        {% endif %}
+      </div>
+      <div class="col-7">
+        {% if ShorelineGraph %}
+          {{ ShorelineGraph|safe }}
+        {% else %}
+          <p>No graph was provided.</p>
+        {% endif %}
+      </div>
     </div>
+    
   </div>
   
   <form method="post">

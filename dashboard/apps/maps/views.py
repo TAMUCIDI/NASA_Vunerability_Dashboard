@@ -97,18 +97,48 @@ def Map(request):
     #graph
     df = loader.datasets
 
-    fig = make_subplots(rows=1)
-    fig.add_trace(go.Box(y=df["Speed_90"], name="All"))
+    fig_wind = go.Figure()
+    fig_mili = go.Figure()
+    fig_shoreline = go.Figure()
+    fig_wind.add_trace(go.Box(y=df["Speed_90"], name="All"))
+    fig_mili.add_trace(go.Box(y=df["Mili_Dist"], name="All"))
+    fig_shoreline.add_trace(go.Box(y=df["Shoreline_Dist"], name="All"))
     for portName, groupData in df.groupby(["NAME"]):
-        fig.add_trace(go.Box(y=groupData["Speed_90"], name=portName))
+        fig_wind.add_trace(go.Box(y=groupData["Speed_90"], name=portName))
+        fig_mili.add_trace(go.Box(y=groupData["Mili_Dist"], name=portName))
+        fig_shoreline.add_trace(go.Box(y=groupData["Shoreline_Dist"], name=portName))
 
-    graph = fig.to_html(full_html=False, default_height=500, default_width=700)
+    fig_wind.update_layout(
+        legend_title_text='Fishing Areas',
+        title="Wind speed at 90m statistics grouped by fishing areas",
+        xaxis_title="Fishing Area Names",
+        yaxis_title="Wind Speed 90m (m/s)"
+    )
+
+    fig_mili.update_layout(
+        legend_title_text='Fishing Areas',
+        title="Distances to military bases statistics grouped by fishing areas",
+        xaxis_title="Fishing Area Names",
+        yaxis_title="Distance (m)"
+    )
+    fig_shoreline.update_layout(
+        legend_title_text='Fishing Areas',
+        title="Distances to shoreline statistics grouped by fishing areas",
+        xaxis_title="Fishing Area Names",
+        yaxis_title="Distance (m)"
+    )
+
+    SpeedGraph = fig_wind.to_html(full_html=False, default_height=500, default_width=700)
+    MiliGraph = fig_mili.to_html(full_html=False, default_height=500, default_width=700)
+    ShorelineGraph = fig_shoreline.to_html(full_html=False, default_height=500, default_width=700)
 
     context = {
         "map": figure,
         "MapForm": mapForm,
         "FishingAreaForm": fishingAreaChoiceForm,
-        "graph": graph,
+        "SpeedGraph": SpeedGraph,
+        "MiliGraph": MiliGraph,
+        "ShorelineGraph": ShorelineGraph,
     }
 
     return render(request, 'maps/plotmap.html', context)
