@@ -1,6 +1,9 @@
-<html>
+<html lang="en" class="material-style layout-fixed">
+{% load static %}
 <head>
   {{ map.header.render|safe }}
+  <link rel="stylesheet" href="{% static 'portal/css/bootstrap-material.css' %}" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
 </head>
 
 <body>
@@ -15,39 +18,38 @@
     <div class="col-5">
       {{map.html.render|safe}}
     </div>
+    <form method="post">
+      {% csrf_token %}
+      {{MapForm.as_p}}
+      <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
+      <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
+      <input type="submit" value="Submit">
+    </form>
     <div class="row">
-      <div class="col-7">
+      <span>
         {% if SpeedGraph %}
           {{ SpeedGraph|safe }}
         {% else %}
           <p>No graph was provided.</p>
         {% endif %}
-      </div>
-      <div class="col-7">
+      </span>
+      <span>
         {% if MiliGraph %}
           {{ MiliGraph|safe }}
         {% else %}
           <p>No graph was provided.</p>
         {% endif %}
-      </div>
-      <div class="col-7">
+      </span>
+      <span>
         {% if ShorelineGraph %}
           {{ ShorelineGraph|safe }}
         {% else %}
           <p>No graph was provided.</p>
         {% endif %}
-      </div>
+      </span>
     </div>
     
   </div>
-  
-  <form method="post">
-    {% csrf_token %}
-    {{MapForm.as_p}}
-    <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
-    <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
-    <input type="submit" value="Submit">
-  </form>
   </div>
   <script>
     {{ map.script.render|safe }}
