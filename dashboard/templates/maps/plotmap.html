@@ -15,9 +15,9 @@
     {{FishingAreaForm.as_p}}
   </form>
   <div class="row">
-    <div class="col-5">
+    <span>
       {{map.html.render|safe}}
-    </div>
+    <span>
     <form method="post">
       {% csrf_token %}
       {{MapForm.as_p}}
@@ -45,6 +45,17 @@
           {{ ShorelineGraph|safe }}
         {% else %}
           <p>No graph was provided.</p>
+        {% endif %}
+      </span>
+    </div>
+    <div class="row">
+      <span>
+        {% if LandingLineGraph %}
+          {{ LandingLineGraph|safe }}
+        {% else %}
+          <p>
+            No Graph was provided.
+          </p>
         {% endif %}
       </span>
     </div>

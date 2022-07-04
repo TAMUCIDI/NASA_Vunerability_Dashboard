@@ -28,7 +28,15 @@ class dataLoader():
             print("failed to load geoJson file:" + geojson_filePath)
 
         self.geometry = self.gdf_shapefile.to_crs("EPSG:4326").geometry
-        self.datasets = self.gdf_geojson[['OBJECTID', 'Area_Name', 'Speed_90', 'Mili_Dist', 'Shoreline_Dist', '2019','2020', 'NAME', 'PORT_GROUP']]
+        self.datasets = self.gdf_geojson[
+            [
+                'OBJECTID', 
+                'Area_Name', 
+                'Speed_90', 
+                'Mili_Dist', 
+                'Shoreline_Dist', 
+                '2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020', '2021',
+                'NAME', 'PORT_GROUP']]
 
     def get_geometry(self):
         return self.geometry

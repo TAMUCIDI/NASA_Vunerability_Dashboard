@@ -3,6 +3,7 @@ from time import time
 
 from numpy import tile
 import pandas as pd
+import numpy as np
 from apps.maps.models import Maps
 
 # Maps Library Import ---------------------------------------------- #
@@ -24,6 +25,7 @@ import os
 
 from apps.maps.dataload import dataLoader
 from apps.maps.dataprocess import init_input_dict, construct_heatmap_gdf, update_weight_dict
+from apps.maps.data.constants import YEAR_RANGE
 
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
@@ -128,9 +130,25 @@ def Map(request):
         yaxis_title="Distance (m)"
     )
 
+    #landing management line graph
+    landingX = YEAR_RANGE
+    fig_landing = go.Figure()
+    
+    landingY = []
+
+    for portName, groupData in df.groupby("NAME"):
+        landingY.append(groupData.loc[:, YEAR_RANGE].iloc[0].values)
+    landing = np.array(landingY).sum(axis=0)
+    fig_landing.add_trace(go.Scatter(x=landingX, y=landing))
+    fig_landing.update_layout(
+        title="Landing Statistics ", 
+        xaxis_title="Year ", 
+        yaxis_title="Landing Ammount (mtons")
+
     SpeedGraph = fig_wind.to_html(full_html=False, default_height=500, default_width=700)
     MiliGraph = fig_mili.to_html(full_html=False, default_height=500, default_width=700)
     ShorelineGraph = fig_shoreline.to_html(full_html=False, default_height=500, default_width=700)
+    LandingLineGraph = fig_landing.to_html(full_html=True, default_height=500, default_width=1000)
 
     context = {
         "map": figure,
@@ -139,6 +157,7 @@ def Map(request):
         "SpeedGraph": SpeedGraph,
         "MiliGraph": MiliGraph,
         "ShorelineGraph": ShorelineGraph,
+        "LandingLineGraph": LandingLineGraph
     }
 
     return render(request, 'maps/plotmap.html', context)
