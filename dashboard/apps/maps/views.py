@@ -40,11 +40,20 @@ def index(request):
 def Map(request):
 
     weightDict = init_input_dict()
+    fishingAreaChoices = []
 
     if request.method == 'POST':
-        mapForm = MapForm(request.POST)
-        if mapForm.is_valid():
-            weightDict = update_weight_dict(weightDict, mapForm.cleaned_data)
+
+        if 'FishingAreaSubmit' in request.POST:
+            fishingForm = FishingAreaChoiceForm(request.POST)
+            if fishingForm.is_valid():
+                fishingAreaChoices = fishingForm.cleaned_data['fishingArea']
+
+        elif 'MapSubmit' in request.POST:
+            mapForm = MapForm(request.POST)
+            if mapForm.is_valid():
+                weightDict = update_weight_dict(weightDict, mapForm.cleaned_data)
+        
 
     figure = folium.Figure()
     m = folium.Map(
@@ -61,13 +70,16 @@ def Map(request):
     loader = dataLoader(gjsonFilePath, shpFilePath)
 
     #score geo data frame
-    scoreGeoJson, dataDf = loader.get_score_geoJson(weightDict)
+    #scoreGeoJson, dataDf = loader.get_score_geoJson(weightDict)
+    scoreGdf = loader.get_score_gdf(weightDict=weightDict)
+    if len(fishingAreaChoices) > 0 and 'ALL' not in fishingAreaChoices:
+        scoreGdf = scoreGdf[scoreGdf['PORT_GROUP'].isin(fishingAreaChoices)]
     #choropleth
     folium.Choropleth(
-        geo_data=scoreGeoJson,
-        data=dataDf,
-        columns=['objectId', 'score'],
-        key_on='feature.properties.objectId',
+        geo_data=scoreGdf,
+        data=pd.DataFrame(scoreGdf),
+        columns=['OBJECTID', 'score'],
+        key_on='feature.properties.OBJECTID',
         fill_color='OrRd',
         name='Wind Energy Suitability Score Choropleth',
         line_weight=0.1,
@@ -97,7 +109,7 @@ def Map(request):
         #form.fields['coords'].widget = forms.HiddenInput()
 
     #graph
-    df = loader.datasets
+    df = loader.get_dataSet()
 
     fig_wind = go.Figure()
     fig_mili = go.Figure()

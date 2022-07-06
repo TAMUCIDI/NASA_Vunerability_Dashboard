@@ -13,6 +13,7 @@
   <form method="post">
     {% csrf_token %}
     {{FishingAreaForm.as_p}}
+    <input type="submit" value="Submit" name="FishingAreaSubmit">
   </form>
   <div class="row">
     <span>
@@ -23,7 +24,7 @@
       {{MapForm.as_p}}
       <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
       <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
-      <input type="submit" value="Submit">
+      <input type="submit" value="Submit" name="MapSubmit">
     </form>
     <div class="row">
       <span>

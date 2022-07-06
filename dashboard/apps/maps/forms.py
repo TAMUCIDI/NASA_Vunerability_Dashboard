@@ -31,7 +31,5 @@ class FishingAreaChoiceForm(forms.Form):
     fishingArea = forms.MultipleChoiceField(
         choices=AREA_CHOICES,
         label="Fishing Areas ",
-        widget=forms.SelectMultiple(
-            attrs={'onchange':'FishingAreaForm.submit();'}
-        )
+        widget=forms.SelectMultiple()
     )

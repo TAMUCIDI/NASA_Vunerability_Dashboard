@@ -1,5 +1,6 @@
 import pandas as pd
 from folium.plugins import HeatMap
+from apps.maps.data.constants import NORMALIZE_COLUMNS
 
 def init_input_dict():
     return {
@@ -19,7 +20,8 @@ def update_weight_dict(weightDict, inputDict):
     return weightDict
 
 def normalize(df):
-    for column in df.columns:
+    #for column in df.columns:
+    for column in NORMALIZE_COLUMNS:
         df[column] = (df[column] - df[column].min())/(df[column].max() - df[column].min())
     
     return df
