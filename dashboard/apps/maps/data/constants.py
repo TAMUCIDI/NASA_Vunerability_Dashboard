@@ -21,5 +21,6 @@ NORMALIZE_COLUMNS = [
     'Mili_Dist', 
     'Shoreline_Dist', 
     '2019',
-    '2020'
+    '2020',
+    '2021',
 ]

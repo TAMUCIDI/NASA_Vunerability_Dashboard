@@ -60,7 +60,9 @@ class dataLoader():
         score = weightDict['Speed90Weight']*dfNorm['Speed_90'] \
         - weightDict['ShorelineDistWeight'] * dfNorm['Shoreline_Dist'] \
         + weightDict['MilitaryDistWeight'] * dfNorm['Mili_Dist'] \
-        - weightDict['Landing19Weight'] * dfNorm['2019']
+        - weightDict['Landing19Weight'] * dfNorm['2019'] \
+        - weightDict['Landing20Weight'] * dfNorm['2020'] \
+        - weightDict['Landing21Weight'] * dfNorm['2021']
 
         for i,s in enumerate(score):
             score[i] = (score[i] - score.min())/(score.max() - score.min())

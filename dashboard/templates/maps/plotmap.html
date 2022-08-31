@@ -5,7 +5,7 @@
   <!-- link rel="stylesheet" href="{% static 'portal/css/bootstrap-material.css' %}" /-->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
   <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-	<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
 	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
@@ -22,13 +22,47 @@
     <span>
       {{map.html.render|safe}}
     <span>
-    <form method="post">
+    <ul id="myTab" class="nav nav-tabs">
+	    <li class="active">
+		    <a href="#multi-criteria-baseline" data-toggle="tab">
+		        Multi-criteria Baseline
+		    </a>
+	    </li>
+	    <li>
+            <a href="#AHP" data-toggle="tab">
+                AHP
+            </a>
+        </li>
+	    <li>
+            <a href="#TOPSIS" data-toggle="tab">
+                TOPSIS
+            </a>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+	    <div class="tab-pane fade in active" id="multi-criteria-baseline">
+		    <p>Multi Criteria</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{MapForm.as_p}}
+                    <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
+                    <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
+                    <input type="submit" value="Submit" name="MapSubmit">
+                </form>
+	    </div>
+	<div class="tab-pane fade" id="AHP">
+		<p>AHP</p>
+	</div>
+	<div class="tab-pane fade" id="TOPSIS">
+		<p>TOPSIS</p>
+	</div>
+</div>
+    <!-- form method="post">
       {% csrf_token %}
       {{MapForm.as_p}}
       <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
-      <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
       <input type="submit" value="Submit" name="MapSubmit">
-    </form>
+    </form -->
     <div class="row">
       <span>
         {% if SpeedGraph %}
@@ -70,33 +104,7 @@
     {{ map.script.render|safe }}
   </script>
   <br><br><br>
-  <ul id="myTab" class="nav nav-tabs">
-	<li class="active">
-		<a href="#multi-criteria-baseline" data-toggle="tab">
-		  Multi-criteria Baseline
-		</a>
-	</li>
-	<li>
-    <a href="#AHP" data-toggle="tab">
-      AHP
-    </a>
-  </li>
-	<li>
-    <a href="#TOPSIS" data-toggle="tab">
-      TOPSIS
-    </a>
-  </li>
-</ul>
-<div id="myTabContent" class="tab-content">
-	<div class="tab-pane fade in active" id="multi-criteria-baseline">
-		<p>Multi Criteria</p>
-	</div>
-	<div class="tab-pane fade" id="AHP">
-		<p>AHP</p>
-	</div>
-	<div class="tab-pane fade" id="TOPSIS">
-		<p>TOPSIS</p>
-	</div>
-</div>
+  
+
 </body>
 </html>

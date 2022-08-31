@@ -27,6 +27,18 @@ class MapForm(forms.Form):
         initial=1,
     )
 
+    Landing20 = forms.FloatField(
+        label='Weight of Landing in 2020 ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+
+    Landing21 = forms.FloatField(
+        label='Weight of Landing in 2021 ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+
 class FishingAreaChoiceForm(forms.Form):
     fishingArea = forms.MultipleChoiceField(
         choices=AREA_CHOICES,
