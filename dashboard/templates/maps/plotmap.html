@@ -45,18 +45,23 @@
                 <form method="post">
                     {% csrf_token %}
                     {{MapForm.as_p}}
-                    <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
+                    <!-- h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5 -->
                     <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
                     <input type="submit" value="Submit" name="MapSubmit">
                 </form>
 	    </div>
-	<div class="tab-pane fade" id="AHP">
-		<p>AHP</p>
-	</div>
-	<div class="tab-pane fade" id="TOPSIS">
-		<p>TOPSIS</p>
-	</div>
-</div>
+	    <div class="tab-pane fade" id="AHP">
+		    <p>AHP</p>
+	    </div>
+	    <div class="tab-pane fade" id="TOPSIS">
+		    <p>TOPSIS</p>
+                <form method="post">
+                    {% csrf_token %}
+                    {{TopsisWeightForm.as_p}}
+                    <input type="submit" value="Submit" name="TopsisWeightSubmit">
+                </form>
+	    </div>
+    </div>
     <!-- form method="post">
       {% csrf_token %}
       {{MapForm.as_p}}

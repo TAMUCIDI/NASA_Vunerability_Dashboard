@@ -15,7 +15,7 @@ import folium
 #from folium import plugins, Choropleth, Figure, Map, GeoJson, FeatureGroup, LayerControl
 import branca.colormap as cm
 
-from apps.maps.forms import MapForm, FishingAreaChoiceForm
+from apps.maps.forms import MapForm, FishingAreaChoiceForm, TopsisWeightForm
 from django.http import HttpResponse
 from django import forms
 
@@ -40,20 +40,22 @@ def index(request):
 def Map(request):
 
     weightDict = init_input_dict()
+    topsisWeightDict = init_input_dict()
     fishingAreaChoices = []
 
     if request.method == 'POST':
-
         if 'FishingAreaSubmit' in request.POST:
             fishingForm = FishingAreaChoiceForm(request.POST)
             if fishingForm.is_valid():
                 fishingAreaChoices = fishingForm.cleaned_data['fishingArea']
-
         elif 'MapSubmit' in request.POST:
             mapForm = MapForm(request.POST)
             if mapForm.is_valid():
                 weightDict = update_weight_dict(weightDict, mapForm.cleaned_data)
-        
+        elif 'TopsisWeightSubmit' in request.POST:
+            topsisWeightForm = TopsisWeightForm(request.POST)
+            if topsisWeightForm.is_valid():
+                topsisWeightDict = update_weight_dict(weightDict, topsisWeightForm.cleaned_data)
 
     figure = folium.Figure()
     m = folium.Map(
@@ -105,6 +107,7 @@ def Map(request):
     m.add_to(figure)
     figure.render()
     mapForm = MapForm()
+    topsisWeightForm = TopsisWeightForm()
     fishingAreaChoiceForm = FishingAreaChoiceForm()
         #form.fields['coords'].widget = forms.HiddenInput()
 
@@ -166,6 +169,7 @@ def Map(request):
         "map": figure,
         "MapForm": mapForm,
         "FishingAreaForm": fishingAreaChoiceForm,
+        "TopsisWeightForm": topsisWeightForm,
         "SpeedGraph": SpeedGraph,
         "MiliGraph": MiliGraph,
         "ShorelineGraph": ShorelineGraph,

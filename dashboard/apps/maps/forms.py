@@ -45,3 +45,35 @@ class FishingAreaChoiceForm(forms.Form):
         label="Fishing Areas ",
         widget=forms.SelectMultiple()
     )
+
+class TopsisWeightForm(forms.Form):
+    Speed90 = forms.FloatField(
+        label='Weight of Wind Speed 90m ',
+        widget=forms.NumberInput(),
+        initial=1
+    )
+    ShorelineDist = forms.FloatField(
+        label='Weight of Shoreline Distance ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+    MilitaryDist = forms.FloatField(
+        label='Weight of Military Distance ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+    Landing19 = forms.FloatField(
+        label='Weight of Landing in 2019 ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+    Landing20 = forms.FloatField(
+        label='Weight of Landing in 2020 ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+    Landing21 = forms.FloatField(
+        label='Weight of Landing in 2021 ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
