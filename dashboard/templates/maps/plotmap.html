@@ -52,6 +52,58 @@
 	    </div>
 	    <div class="tab-pane fade" id="AHP">
 		    <p>AHP</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="row">
+                    <input type='float' name='Speedweight[0]'>
+                    <input type='float' name='Speedweight[1]'>
+                    <input type='float' name='Speedweight[2]'>
+                    <input type='float' name='Speedweight[3]'>
+                    <input type='float' name='Speedweight[4]'>
+                    <input type='float' name='Speedweight[5]'>
+                </div>
+                <div class="row">
+                    <input type='float' name='ShorelineDistWeight[0]'>
+                    <input type='float' name='ShorelineDistWeight[1]'>
+                    <input type='float' name='ShorelineDistWeight[2]'>
+                    <input type='float' name='ShorelineDistWeight[3]'>
+                    <input type='float' name='ShorelineDistWeight[4]'>
+                    <input type='float' name='ShorelineDistWeight[5]'>
+                </div>
+                <div class="row">
+                    <input type='float' name='MilitaryDistWeight[0]'>
+                    <input type='float' name='MilitaryDistWeight[1]'>
+                    <input type='float' name='MilitaryDistWeight[2]'>
+                    <input type='float' name='MilitaryDistWeight[3]'>
+                    <input type='float' name='MilitaryDistWeight[4]'>
+                    <input type='float' name='MilitaryDistWeight[5]'>
+                </div>
+                <div class="row">
+                    <input type='float' name='Landing19Weight[0]'>
+                    <input type='float' name='Landing19Weight[1]'>
+                    <input type='float' name='Landing19Weight[2]'>
+                    <input type='float' name='Landing19Weight[3]'>
+                    <input type='float' name='Landing19Weight[4]'>
+                    <input type='float' name='Landing19Weight[5]'>
+                </div>
+                <div class="row">
+                    <input type='float' name='Landing20Weight[0]'>
+                    <input type='float' name='Landing20Weight[1]'>
+                    <input type='float' name='Landing20Weight[2]'>
+                    <input type='float' name='Landing20Weight[3]'>
+                    <input type='float' name='Landing20Weight[4]'>
+                    <input type='float' name='Landing20Weight[5]'>
+                </div>
+                <div class="row">
+                    <input type='float' name='Landing21Weight[0]'>
+                    <input type='float' name='Landing21Weight[1]'>
+                    <input type='float' name='Landing21Weight[2]'>
+                    <input type='float' name='Landing21Weight[3]'>
+                    <input type='float' name='Landing21Weight[4]'>
+                    <input type='float' name='Landing21Weight[5]'>
+                </div>
+                <input type="submit" value="Submit" name="AHPWeightSubmit">
+            </form>
 	    </div>
 	    <div class="tab-pane fade" id="TOPSIS">
 		    <p>TOPSIS</p>

@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 from folium import GeoJson
+from topsis import topsis
 from apps.maps.dataprocess import normalize
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -49,20 +50,32 @@ class dataLoader():
         )
         return gdf
 
-    def get_score_gdf(self, weightDict):
+    def get_score_gdf(self, weightDict, algoChoice):
         df = pd.DataFrame(
             #self.get_gdf()[['Speed_90', 'Mili_Dist', 'Shoreline_Dist', '2019','2020']]
             self.get_gdf()
         )
         dfNorm = normalize(df)
-
-        #weighted score
-        score = weightDict['Speed90Weight']*dfNorm['Speed_90'] \
-        - weightDict['ShorelineDistWeight'] * dfNorm['Shoreline_Dist'] \
-        + weightDict['MilitaryDistWeight'] * dfNorm['Mili_Dist'] \
-        - weightDict['Landing19Weight'] * dfNorm['2019'] \
-        - weightDict['Landing20Weight'] * dfNorm['2020'] \
-        - weightDict['Landing21Weight'] * dfNorm['2021']
+        if algoChoice == "MCDM":
+            #MCDM weighted score
+            score = weightDict['Speed90Weight']*dfNorm['Speed_90'] \
+                    - weightDict['ShorelineDistWeight'] * dfNorm['Shoreline_Dist'] \
+                    + weightDict['MilitaryDistWeight'] * dfNorm['Mili_Dist'] \
+                    - weightDict['Landing19Weight'] * dfNorm['2019'] \
+                    - weightDict['Landing20Weight'] * dfNorm['2020'] \
+                    - weightDict['Landing21Weight'] * dfNorm['2021']
+        elif algoChoice == "TOPSIS":
+            #"TOPSIS" weighted score
+            topsisWeights = [weightDict['Speed90Weight'], weightDict['ShorelineDistWeight'], weightDict['MilitaryDistWeight'], weightDict['Landing19Weight'], weightDict['Landing20Weight'], weightDict['Landing21Weight']]
+            topsisCriterias = [False, True, True, False, False, False]
+            topsisData = np.array(
+                [dfNorm['Speed_90'], dfNorm['Shoreline_Dist'], dfNorm['Mili_Dist'], dfNorm['2019'], dfNorm['2020'], dfNorm['2021']]
+            ).T
+            topsisDecision = topsis(topsisData, topsisWeights, topsisCriterias)
+            topsisDecision.calc()
+            score = topsisDecision.C
+        elif algoChoice == "AHP":
+            
 
         for i,s in enumerate(score):
             score[i] = (score[i] - score.min())/(score.max() - score.min())

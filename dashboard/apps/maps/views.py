@@ -24,7 +24,7 @@ import json
 import os
 
 from apps.maps.dataload import dataLoader
-from apps.maps.dataprocess import init_input_dict, construct_heatmap_gdf, update_weight_dict
+from apps.maps.dataprocess import init_input_dict, construct_heatmap_gdf, update_weight_dict, init_AHP_weight_dict
 from apps.maps.data.constants import YEAR_RANGE
 
 from plotly.subplots import make_subplots
@@ -38,10 +38,15 @@ def index(request):
     return HttpResponse("Hello World")
 
 def Map(request):
-
+    #init
     weightDict = init_input_dict()
     topsisWeightDict = init_input_dict()
     fishingAreaChoices = []
+    #
+    # "MCDM": multi-criteria
+    # "AHP"
+    # "TOPSIS"
+    algoChoice = "MCDM"
 
     if request.method == 'POST':
         if 'FishingAreaSubmit' in request.POST:
@@ -52,10 +57,15 @@ def Map(request):
             mapForm = MapForm(request.POST)
             if mapForm.is_valid():
                 weightDict = update_weight_dict(weightDict, mapForm.cleaned_data)
+                algoChoice = "MCDM"
+        elif 'AHPWeightSubmit' in request.POST:
+            weightDict = init_AHP_weight_dict(weightDict, request.POST)
+            algoChoice = "AHP"
         elif 'TopsisWeightSubmit' in request.POST:
             topsisWeightForm = TopsisWeightForm(request.POST)
             if topsisWeightForm.is_valid():
                 topsisWeightDict = update_weight_dict(weightDict, topsisWeightForm.cleaned_data)
+                algoChoice = "TOPSIS"
 
     figure = folium.Figure()
     m = folium.Map(
@@ -73,7 +83,7 @@ def Map(request):
 
     #score geo data frame
     #scoreGeoJson, dataDf = loader.get_score_geoJson(weightDict)
-    scoreGdf = loader.get_score_gdf(weightDict=weightDict)
+    scoreGdf = loader.get_score_gdf(weightDict=weightDict, algoChoice=algoChoice)
     if len(fishingAreaChoices) > 0 and 'ALL' not in fishingAreaChoices:
         scoreGdf = scoreGdf[scoreGdf['PORT_GROUP'].isin(fishingAreaChoices)]
     #choropleth
