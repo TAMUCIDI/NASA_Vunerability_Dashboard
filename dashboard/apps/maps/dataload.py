@@ -4,6 +4,7 @@ import numpy as np
 import os
 from folium import GeoJson
 from topsis import topsis
+import ahpy
 from apps.maps.dataprocess import normalize
 
 cwd = os.path.dirname(os.path.realpath(__file__))
@@ -75,7 +76,32 @@ class dataLoader():
             topsisDecision.calc()
             score = topsisDecision.C
         elif algoChoice == "AHP":
-            
+            #construct AHP matrix
+            feature_list = ['Wind_Speed', 'Shoreline_Distance', 'Military_Distance', '2019_Landing', '2020_Landing', '2021_Landing']
+            AHP_feature_len = len(feature_list)
+            AHP_Comparison_dict = dict()
+            AHPMatrix = [
+                weightDict['Speed90Weight'], weightDict['ShorelineDistWeight'], weightDict['MilitaryDistWeight'], weightDict['Landing19Weight'], weightDict['Landing20Weight'], weightDict['Landing21Weight']
+            ]
+
+            for i in range(AHP_feature_len):
+                for j in range(AHP_feature_len):
+                    if i != j:
+                        tuple_tmp = (feature_list[i], feature_list[j])
+                        AHP_Comparison_dict[tuple_tmp] = AHPMatrix[i][j]
+            print(AHP_Comparison_dict)
+
+            #AHP Multi-criteria
+            AHP = ahpy.Compare(name='Fishing_Features_AHP', comparisons=AHP_Comparison_dict, precision=6, random_index='saaty')
+            AHP_Weights = list(AHP.target_weights.values())
+            print(AHP_Weights)
+
+            score = AHP_Weights[0]*dfNorm['Speed_90'] \
+                    - AHP_Weights[1] * dfNorm['Shoreline_Dist'] \
+                    + AHP_Weights[2] * dfNorm['Mili_Dist'] \
+                    - AHP_Weights[3] * dfNorm['2019'] \
+                    - AHP_Weights[4] * dfNorm['2020'] \
+                    - AHP_Weights[5] * dfNorm['2021']
 
         for i,s in enumerate(score):
             score[i] = (score[i] - score.min())/(score.max() - score.min())
