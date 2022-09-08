@@ -68,7 +68,7 @@ class dataLoader():
         elif algoChoice == "TOPSIS":
             #"TOPSIS" weighted score
             topsisWeights = [weightDict['Speed90Weight'], weightDict['ShorelineDistWeight'], weightDict['MilitaryDistWeight'], weightDict['Landing19Weight'], weightDict['Landing20Weight'], weightDict['Landing21Weight']]
-            topsisCriterias = [False, True, True, False, False, False]
+            topsisCriterias = [True, False, True, False, False, False]
             topsisData = np.array(
                 [dfNorm['Speed_90'], dfNorm['Shoreline_Dist'], dfNorm['Mili_Dist'], dfNorm['2019'], dfNorm['2020'], dfNorm['2021']]
             ).T
