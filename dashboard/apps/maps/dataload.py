@@ -92,8 +92,13 @@ class dataLoader():
             print(AHP_Comparison_dict)
 
             #AHP Multi-criteria
-            AHP = ahpy.Compare(name='Fishing_Features_AHP', comparisons=AHP_Comparison_dict, precision=6, random_index='saaty')
+            AHP = ahpy.Compare(
+                    name='Fishing_Features_AHP', 
+                    comparisons=AHP_Comparison_dict, 
+                    precision=6, 
+                    random_index='saaty')
             AHP_Weights = list(AHP.target_weights.values())
+            consistency_ratio = AHP.consistency_ratio
             print(AHP_Weights)
 
             score = AHP_Weights[0]*dfNorm['Speed_90'] \
@@ -129,5 +134,7 @@ class dataLoader():
         '''
         gdf = self.get_gdf()
         gdf['score'] = score
-
-        return gdf
+        if algoChoice == "AHP":
+            return gdf, consistency_ratio
+        else:
+            return gdf

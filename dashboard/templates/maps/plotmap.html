@@ -104,6 +104,11 @@
                 </div>
                 <input type="submit" value="Submit" name="AHPWeightSubmit">
             </form>
+        {% if ConsistencyRatio %}
+            <p>
+              Consistency Ratio: {{ ConsistencyRatio }}
+            </p>
+        {% endif %}
 	    </div>
 	    <div class="tab-pane fade" id="TOPSIS">
 		    <p>TOPSIS</p>
