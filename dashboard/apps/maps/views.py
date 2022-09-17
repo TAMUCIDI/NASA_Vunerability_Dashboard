@@ -87,6 +87,7 @@ def Map(request):
         scoreGdf, consistentRatio = loader.get_score_gdf(weightDict=weightDict, algoChoice=algoChoice)
     else:
         scoreGdf = loader.get_score_gdf(weightDict=weightDict, algoChoice=algoChoice)
+        consistentRatio = "N/A"
     if len(fishingAreaChoices) > 0 and 'ALL' not in fishingAreaChoices:
         scoreGdf = scoreGdf[scoreGdf['PORT_GROUP'].isin(fishingAreaChoices)]
     #choropleth
@@ -178,28 +179,16 @@ def Map(request):
     ShorelineGraph = fig_shoreline.to_html(full_html=False, default_height=500, default_width=700)
     LandingLineGraph = fig_landing.to_html(full_html=True, default_height=500, default_width=1000)
 
-    if algoChoice == "AHP":
-        context = {
-            "map": figure,
-            "MapForm": mapForm,
-            "FishingAreaForm": fishingAreaChoiceForm,
-            "TopsisWeightForm": topsisWeightForm,
-            "SpeedGraph": SpeedGraph,
-            "MiliGraph": MiliGraph,
-            "ShorelineGraph": ShorelineGraph,
-            "LandingLineGraph": LandingLineGraph,
-            "ConsistencyRatio": consistentRatio,
-        }
-    else:
-        context = {
-            "map": figure,
-            "MapForm": mapForm,
-            "FishingAreaForm": fishingAreaChoiceForm,
-            "TopsisWeightForm": topsisWeightForm,
-            "SpeedGraph": SpeedGraph,
-            "MiliGraph": MiliGraph,
-            "ShorelineGraph": ShorelineGraph,
-            "LandingLineGraph": LandingLineGraph,
-        }
+    context = {
+        "map": figure,
+        "MapForm": mapForm,
+        "FishingAreaForm": fishingAreaChoiceForm,
+        "TopsisWeightForm": topsisWeightForm,
+        "SpeedGraph": SpeedGraph,
+        "MiliGraph": MiliGraph,
+        "ShorelineGraph": ShorelineGraph,
+        "LandingLineGraph": LandingLineGraph,
+        "ConsistencyRatio": consistentRatio,
+    }
 
     return render(request, 'maps/plotmap.html', context)
