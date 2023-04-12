@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 from folium.plugins import HeatMap
 from apps.maps.data.constants import NORMALIZE_COLUMNS
 
@@ -22,6 +23,13 @@ def update_weight_dict(weightDict, inputDict):
     weightDict['Landing21Weight'] = inputDict['Landing21']
 
     return weightDict
+
+def init_AHP_Weight_New(request):
+    weight_array = np.zeros((6,6))
+    for row in range(6):
+        for col in range(6):
+            weight_array[row][col] = float(request['AHP_Weight[{}][{}]'.format(row, col)])
+    return weight_array
 
 def init_AHP_weight_dict(weightDict, request):
     weightDict['Speed90Weight'] = [float(request['Speedweight[0]']), float(request['Speedweight[1]']), float(request['Speedweight[2]']), float(request['Speedweight[3]']), float(request['Speedweight[4]']), float(request['Speedweight[5]'])]

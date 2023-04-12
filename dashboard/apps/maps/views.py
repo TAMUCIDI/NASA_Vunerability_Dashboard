@@ -6,7 +6,7 @@ import logging
 import os
 
 from apps.maps.dataload import dataLoader
-from apps.maps.dataprocess import init_input_dict, update_weight_dict, init_AHP_weight_dict
+from apps.maps.dataprocess import init_input_dict, update_weight_dict, init_AHP_weight_dict, init_AHP_Weight_New
 
 from .maps import create_map
 from .graph import create_graphs
@@ -36,6 +36,7 @@ def process_post_request(request):
             algo_choice = "MCDM"
     elif 'AHPWeightSubmit' in request.POST:
         weight_dict = init_AHP_weight_dict(weight_dict, request.POST)
+        AHP_Weight_new = init_AHP_Weight_New(request.POST)
         algo_choice = "AHP"
     elif 'TopsisWeightSubmit' in request.POST:
         topsis_weight_form = TopsisWeightForm(request.POST)

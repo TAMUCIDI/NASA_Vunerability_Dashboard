@@ -28,11 +28,18 @@
 		        Weighted Sum Model
 		    </a>
 	    </li>
-	    <li>
+      <!--
+        <li>
             <a href="#AHP" data-toggle="tab">
                 AHP
             </a>
         </li>
+      -->
+      <li>
+            <a href="#AHP" data-toggle="tab">
+                AHP
+            </a>
+      </li>
 	    <li>
             <a href="#TOPSIS" data-toggle="tab">
                 TOPSIS
@@ -50,7 +57,8 @@
                     <input type="submit" value="Submit" name="MapSubmit">
                 </form>
 	    </div>
-	    <div class="tab-pane fade" id="AHP">
+      <!--
+        <div class="tab-pane fade" id="AHP">
 		    <p>AHP</p>
             <form method="post">
                 {% csrf_token %}
@@ -107,7 +115,26 @@
             <p>
               Consistency Ratio: {{ ConsistencyRatio }}
             </p>
-	    </div>
+	      </div>
+      -->
+      <div class="tab-pane fade" id="AHP">
+        <p>AHP</p>
+        <form method="post">
+          {% csrf_token %}
+          <table>
+              <!-- Table headers and styles omitted for brevity -->
+              {% for row in "123456"|make_list %}
+                  <tr>
+                      {% for col in "123456"|make_list %}
+                          <td><input type='number' step='any' name='AHP_Weight[{{ row }}][{{ col }}]' required></td>
+                      {% endfor %}
+                  </tr>
+              {% endfor %}
+          </table>
+          <input type="submit" value="Submit" name="AHPWeightSubmit">
+      </form>
+      
+      </div>
 	    <div class="tab-pane fade" id="TOPSIS">
 		    <p>TOPSIS</p>
                 <form method="post">
