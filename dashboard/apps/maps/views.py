@@ -1,34 +1,16 @@
-from email import message
-from time import time
-
-from numpy import tile
-import pandas as pd
-import numpy as np
-from apps.maps.models import Maps
-
-# Maps Library Import ---------------------------------------------- #
-from django.shortcuts import redirect, render
-from django.views.generic import TemplateView 
-
-#folium
-import folium
-#from folium import plugins, Choropleth, Figure, Map, GeoJson, FeatureGroup, LayerControl
-import branca.colormap as cm
-
+from django.shortcuts import render
 from apps.maps.forms import MapForm, FishingAreaChoiceForm, TopsisWeightForm
 from django.http import HttpResponse
-from django import forms
 
 import logging
-import json
 import os
 
 from apps.maps.dataload import dataLoader
-from apps.maps.dataprocess import init_input_dict, construct_heatmap_gdf, update_weight_dict, init_AHP_weight_dict
-from apps.maps.data.constants import YEAR_RANGE
+from apps.maps.dataprocess import init_input_dict, update_weight_dict, init_AHP_weight_dict
 
-from plotly.subplots import make_subplots
-import plotly.graph_objects as go
+from .maps import create_map
+from .graph import create_graphs
+
 
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
@@ -37,6 +19,64 @@ logger = logging.getLogger(__name__)
 def index(request):
     return HttpResponse("Hello World")
 
+def process_post_request(request):
+    fishing_area_choices = []
+    algo_choice = "MCDM"
+    weight_dict = init_input_dict()
+    topsis_weight_dict = init_input_dict()
+
+    if 'FishingAreaSubmit' in request.POST:
+        fishing_form = FishingAreaChoiceForm(request.POST)
+        if fishing_form.is_valid():
+            fishing_area_choices = fishing_form.cleaned_data['fishingArea']
+    elif 'MapSubmit' in request.POST:
+        map_form = MapForm(request.POST)
+        if map_form.is_valid():
+            weight_dict = update_weight_dict(weight_dict, map_form.cleaned_data)
+            algo_choice = "MCDM"
+    elif 'AHPWeightSubmit' in request.POST:
+        weight_dict = init_AHP_weight_dict(weight_dict, request.POST)
+        algo_choice = "AHP"
+    elif 'TopsisWeightSubmit' in request.POST:
+        topsis_weight_form = TopsisWeightForm(request.POST)
+        if topsis_weight_form.is_valid():
+            topsis_weight_dict = update_weight_dict(weight_dict, topsis_weight_form.cleaned_data)
+            algo_choice = "TOPSIS"
+
+    return fishing_area_choices, algo_choice, weight_dict, topsis_weight_dict
+
+def Map(request):
+    weight_dict = init_input_dict()
+    topsis_weight_dict = init_input_dict()
+    fishing_area_choices = []
+    algo_choice = "MCDM"
+
+    if request.method == 'POST':
+        # update the weight_dict when the user submits the form
+        fishing_area_choices, algo_choice, weight_dict, topsis_weight_dict = process_post_request(request)
+
+    cwd = os.path.dirname(os.path.realpath(__file__))
+    gjson_file_path = cwd + "/data/polygons.geojson"
+    shp_file_path = cwd + "/data/divided_polygons_SpatialJoin12.shp"
+    loader = dataLoader(gjson_file_path, shp_file_path)
+
+    folium_figure, consistent_ratio = create_map(loader, algo_choice, fishing_area_choices, weight_dict)
+    fig_wind, fig_mili, fig_shoreline, fig_landing = create_graphs(loader)
+
+    context = {
+        "map": folium_figure,
+        "MapForm": MapForm(),
+        "FishingAreaForm": FishingAreaChoiceForm(),
+        "TopsisWeightForm": TopsisWeightForm(),
+        "SpeedGraph": fig_wind.to_html(full_html=False, default_height=500, default_width=700),
+        "MiliGraph": fig_mili.to_html(full_html=False, default_height=500, default_width=700),
+        "ShorelineGraph": fig_shoreline.to_html(full_html=False, default_height=500, default_width=700),
+        "LandingLineGraph": fig_landing.to_html(full_html=True, default_height=500, default_width=1000),
+        "ConsistencyRatio": consistent_ratio,
+    }
+
+    return render(request, 'maps/plotmap.html', context)
+'''
 def Map(request):
     #init
     weightDict = init_input_dict()
@@ -192,3 +232,4 @@ def Map(request):
     }
 
     return render(request, 'maps/plotmap.html', context)
+'''
