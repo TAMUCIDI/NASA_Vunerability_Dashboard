@@ -1,197 +1,87 @@
 <html lang="en" class="material-style layout-fixed">
 {% load static %}
 <head>
-  {{ map.header.render|safe }}
-  <!-- link rel="stylesheet" href="{% static 'portal/css/bootstrap-material.css' %}" /-->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
-  <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    {{ map.header.render|safe }}
+    <!-- link rel="stylesheet" href="{% static 'portal/css/bootstrap-material.css' %}" /-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
-	<script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-  <div style="padding: 2%;">
-  <h1>Interactive Map</h1>
-  <h3>Map on which the user can draw a bounding box to select the fishery location.</h3>
-  <form method="post">
+    <div style="padding: 2%;">
+    <h1>Interactive Map</h1>
+    <h3>Map on which the user can draw a bounding box to select the fishery location.</h3>
+    <form method="post">
     {% csrf_token %}
     {{FishingAreaForm.as_p}}
     <input type="submit" value="Submit" name="FishingAreaSubmit">
-  </form>
-  <div class="row">
-    <span>
-      {{map.html.render|safe}}
-    <span>
-    <ul id="myTab" class="nav nav-tabs">
-	    <li class="active">
-		    <a href="#multi-criteria-baseline" data-toggle="tab">
-		        Weighted Sum Model
-		    </a>
-	    </li>
-      <!--
-        <li>
-            <a href="#AHP" data-toggle="tab">
-                AHP
-            </a>
-        </li>
-      -->
-      <li>
-            <a href="#AHP" data-toggle="tab">
-                AHP
-            </a>
-      </li>
-	    <li>
-            <a href="#TOPSIS" data-toggle="tab">
-                TOPSIS
-            </a>
-        </li>
-    </ul>
-    <div id="myTabContent" class="tab-content">
-	    <div class="tab-pane fade in active" id="multi-criteria-baseline">
-		    <p>Multi Criteria</p>
+    </form>
+    <div class="row">
+        <span>
+            {{map.html.render|safe}}
+        <span>
+        <ul id="myTab" class="nav nav-tabs">
+	        <li class="active">
+		        <a href="#multi-criteria-baseline" data-toggle="tab">
+		            Weighted Sum Model
+		        </a>
+	        </li>
+            <li>
+                <a href="#AHP" data-toggle="tab">
+                    AHP
+                </a>
+            </li>
+	        <li>
+                <a href="#TOPSIS" data-toggle="tab">
+                    TOPSIS
+                </a>
+            </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+	        <div class="tab-pane fade in active" id="multi-criteria-baseline">
+		        <p>Multi Criteria</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{WSDM_WeightForm.as_p}}
+                        <!-- h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5 -->
+                        <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
+                        <input type="submit" value="Submit" name="WSDMWeightSubmit">
+                    </form>
+	        </div>
+            <div class="tab-pane fade" id="AHP">
+                <p>AHP</p>
                 <form method="post">
                     {% csrf_token %}
-                    {{MapForm.as_p}}
-                    <!-- h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5 -->
-                    <!--input type="submit" name="coordinates" value="Submit" style="display: none;" /-->
-                    <input type="submit" value="Submit" name="MapSubmit">
+                    <table>
+                    <!-- Table headers and styles omitted for brevity -->
+                    {% for row in "123456"|make_list %}
+                        <tr>
+                            {% for col in "123456"|make_list %}
+                                <td><input type='number' step='any' name='AHP_Weight[{{ row }}][{{ col }}]' required></td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </table>
+                    <input type="submit" value="Submit" name="AHPWeightSubmit">
                 </form>
-	    </div>
-      <!--
-        <div class="tab-pane fade" id="AHP">
-		    <p>AHP</p>
-            <form method="post">
-                {% csrf_token %}
-                <div class="row">
-                    <input type='float' name='Speedweight[0]'>
-                    <input type='float' name='Speedweight[1]'>
-                    <input type='float' name='Speedweight[2]'>
-                    <input type='float' name='Speedweight[3]'>
-                    <input type='float' name='Speedweight[4]'>
-                    <input type='float' name='Speedweight[5]'>
-                </div>
-                <div class="row">
-                    <input type='float' name='ShorelineDistWeight[0]'>
-                    <input type='float' name='ShorelineDistWeight[1]'>
-                    <input type='float' name='ShorelineDistWeight[2]'>
-                    <input type='float' name='ShorelineDistWeight[3]'>
-                    <input type='float' name='ShorelineDistWeight[4]'>
-                    <input type='float' name='ShorelineDistWeight[5]'>
-                </div>
-                <div class="row">
-                    <input type='float' name='MilitaryDistWeight[0]'>
-                    <input type='float' name='MilitaryDistWeight[1]'>
-                    <input type='float' name='MilitaryDistWeight[2]'>
-                    <input type='float' name='MilitaryDistWeight[3]'>
-                    <input type='float' name='MilitaryDistWeight[4]'>
-                    <input type='float' name='MilitaryDistWeight[5]'>
-                </div>
-                <div class="row">
-                    <input type='float' name='Landing19Weight[0]'>
-                    <input type='float' name='Landing19Weight[1]'>
-                    <input type='float' name='Landing19Weight[2]'>
-                    <input type='float' name='Landing19Weight[3]'>
-                    <input type='float' name='Landing19Weight[4]'>
-                    <input type='float' name='Landing19Weight[5]'>
-                </div>
-                <div class="row">
-                    <input type='float' name='Landing20Weight[0]'>
-                    <input type='float' name='Landing20Weight[1]'>
-                    <input type='float' name='Landing20Weight[2]'>
-                    <input type='float' name='Landing20Weight[3]'>
-                    <input type='float' name='Landing20Weight[4]'>
-                    <input type='float' name='Landing20Weight[5]'>
-                </div>
-                <div class="row">
-                    <input type='float' name='Landing21Weight[0]'>
-                    <input type='float' name='Landing21Weight[1]'>
-                    <input type='float' name='Landing21Weight[2]'>
-                    <input type='float' name='Landing21Weight[3]'>
-                    <input type='float' name='Landing21Weight[4]'>
-                    <input type='float' name='Landing21Weight[5]'>
-                </div>
-                <input type="submit" value="Submit" name="AHPWeightSubmit">
-            </form>
-            <p>
-              Consistency Ratio: {{ ConsistencyRatio }}
-            </p>
-	      </div>
-      -->
-      <div class="tab-pane fade" id="AHP">
-        <p>AHP</p>
-        <form method="post">
-          {% csrf_token %}
-          <table>
-              <!-- Table headers and styles omitted for brevity -->
-              {% for row in "123456"|make_list %}
-                  <tr>
-                      {% for col in "123456"|make_list %}
-                          <td><input type='number' step='any' name='AHP_Weight[{{ row }}][{{ col }}]' required></td>
-                      {% endfor %}
-                  </tr>
-              {% endfor %}
-          </table>
-          <input type="submit" value="Submit" name="AHPWeightSubmit">
-      </form>
       
-      </div>
-	    <div class="tab-pane fade" id="TOPSIS">
-		    <p>TOPSIS</p>
+            </div>
+	        <div class="tab-pane fade" id="TOPSIS">
+		        <p>TOPSIS</p>
                 <form method="post">
                     {% csrf_token %}
                     {{TopsisWeightForm.as_p}}
                     <input type="submit" value="Submit" name="TopsisWeightSubmit">
                 </form>
-	    </div>
+	        </div>
+        </div>
     </div>
-    <!-- form method="post">
-      {% csrf_token %}
-      {{MapForm.as_p}}
-      <h5>Draw a closed figure and click on the figure to see an alert with coordinates and then click on submit</h5>
-      <input type="submit" value="Submit" name="MapSubmit">
-    </form -->
-    <div class="row">
-      <span>
-        {% if SpeedGraph %}
-          {{ SpeedGraph|safe }}
-        {% else %}
-          <p>No graph was provided.</p>
-        {% endif %}
-      </span>
-      <span>
-        {% if MiliGraph %}
-          {{ MiliGraph|safe }}
-        {% else %}
-          <p>No graph was provided.</p>
-        {% endif %}
-      </span>
-      <span>
-        {% if ShorelineGraph %}
-          {{ ShorelineGraph|safe }}
-        {% else %}
-          <p>No graph was provided.</p>
-        {% endif %}
-      </span>
     </div>
-    <div class="row">
-      <span>
-        {% if LandingLineGraph %}
-          {{ LandingLineGraph|safe }}
-        {% else %}
-          <p>
-            No Graph was provided.
-          </p>
-        {% endif %}
-      </span>
-    </div>
-    
-  </div>
-  </div>
-  <script>
-    {{ map.script.render|safe }}
-  </script>
-  <br><br><br>
-  
-
+    <script>
+        {{ map.script.render|safe }}
+    </script>
+    <br><br><br>
 </body>
 </html>

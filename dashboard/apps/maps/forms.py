@@ -1,39 +1,59 @@
 from django import forms
 from apps.maps.models import Maps
 from apps.maps.data.constants import AREA_CHOICES
+def restore_MSDM_Weight_From_Session(request):
+    weight_dict = {
+        'Speed90Weight': (float)(request.POST['Speed90Weight']),
+        'ShorelineDistWeight': (float)(request.POST['ShorelineDistWeight']),
+        'MilitaryDistWeight': (float)(request.POST['MilitaryDistWeight']),
+        'Landing19Weight': (float)(request.POST['Landing19Weight']),
+        'Landing20Weight': (float)(request.POST['Landing20Weight']),
+        'Landing21Weight': (float)(request.POST['Landing21Weight']),
+    }
+    return WSDMWeightForm(weight_dict)
 
-class MapForm(forms.Form):
-    Speed90 = forms.FloatField(
+def restore_TOPSIS_Weight_From_Session(request):
+    weight_form = {
+        'Speed90Weight': (float)(request.POST['Speed90Weight']),
+        'ShorelineDistWeight': (float)(request.POST['ShorelineDistWeight']),
+        'MilitaryDistWeight': (float)(request.POST['MilitaryDistWeight']),
+        'Landing19Weight': (float)(request.POST['Landing19Weight']),
+        'Landing20Weight': (float)(request.POST['Landing20Weight']),
+        'Landing21Weight': (float)(request.POST['Landing21Weight']),
+    }
+    return TopsisWeightForm(weight_form)
+class WSDMWeightForm(forms.Form):
+    Speed90Weight = forms.FloatField(
         label='Weight of Wind Speed 90m ',
         widget=forms.NumberInput(),
         initial=1
     )
 
-    ShorelineDist = forms.FloatField(
+    ShorelineDistWeight = forms.FloatField(
         label='Weight of Shoreline Distance ',
         widget=forms.NumberInput(),
         initial=1,
     )
 
-    MilitaryDist = forms.FloatField(
+    MilitaryDistWeight = forms.FloatField(
         label='Weight of Military Distance ',
         widget=forms.NumberInput(),
         initial=1,
     )
 
-    Landing19 = forms.FloatField(
+    Landing19Weight = forms.FloatField(
         label='Weight of Landing in 2019 ',
         widget=forms.NumberInput(),
         initial=1,
     )
 
-    Landing20 = forms.FloatField(
+    Landing20Weight = forms.FloatField(
         label='Weight of Landing in 2020 ',
         widget=forms.NumberInput(),
         initial=1,
     )
 
-    Landing21 = forms.FloatField(
+    Landing21Weight = forms.FloatField(
         label='Weight of Landing in 2021 ',
         widget=forms.NumberInput(),
         initial=1,
@@ -47,32 +67,37 @@ class FishingAreaChoiceForm(forms.Form):
     )
 
 class TopsisWeightForm(forms.Form):
-    Speed90 = forms.FloatField(
+    Speed90Weight = forms.FloatField(
         label='Weight of Wind Speed 90m ',
         widget=forms.NumberInput(),
         initial=1
     )
-    ShorelineDist = forms.FloatField(
+
+    ShorelineDistWeight = forms.FloatField(
         label='Weight of Shoreline Distance ',
         widget=forms.NumberInput(),
         initial=1,
     )
-    MilitaryDist = forms.FloatField(
+
+    MilitaryDistWeight = forms.FloatField(
         label='Weight of Military Distance ',
         widget=forms.NumberInput(),
         initial=1,
     )
-    Landing19 = forms.FloatField(
+
+    Landing19Weight = forms.FloatField(
         label='Weight of Landing in 2019 ',
         widget=forms.NumberInput(),
         initial=1,
     )
-    Landing20 = forms.FloatField(
+
+    Landing20Weight = forms.FloatField(
         label='Weight of Landing in 2020 ',
         widget=forms.NumberInput(),
         initial=1,
     )
-    Landing21 = forms.FloatField(
+
+    Landing21Weight = forms.FloatField(
         label='Weight of Landing in 2021 ',
         widget=forms.NumberInput(),
         initial=1,

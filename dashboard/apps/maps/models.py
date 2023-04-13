@@ -2,10 +2,12 @@ from django.db import models
 
 # Create your models here.
 class Maps(models.Model):
-    Speed90 = models.FloatField()
-    ShorelineDist = models.FloatField()
-    MilitaryDist = models.FloatField()
-    Landing19 = models.FloatField()
+    Speed90Weight = models.FloatField()
+    ShorelineDistWeight = models.FloatField()
+    MilitaryDistWeight = models.FloatField()
+    Landing19Weight = models.FloatField()
+    Landing19Weight = models.FloatField()
+    Landing19Weight = models.FloatField()
 
     def publish(self):
         self.save()
