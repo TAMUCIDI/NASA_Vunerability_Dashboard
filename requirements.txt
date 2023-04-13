@@ -6,4 +6,4 @@ geopandas==0.10.2
 numpy==1.21.6
 pandas==1.3.5
 plotly==5.9.0
-topsis==0.2
+pyDecision==2.8.7

@@ -1,27 +1,24 @@
 from django import forms
 from apps.maps.models import Maps
 from apps.maps.data.constants import AREA_CHOICES
-def restore_MSDM_Weight_From_Session(request):
-    weight_dict = {
-        'Speed90Weight': (float)(request.POST['Speed90Weight']),
-        'ShorelineDistWeight': (float)(request.POST['ShorelineDistWeight']),
-        'MilitaryDistWeight': (float)(request.POST['MilitaryDistWeight']),
-        'Landing19Weight': (float)(request.POST['Landing19Weight']),
-        'Landing20Weight': (float)(request.POST['Landing20Weight']),
-        'Landing21Weight': (float)(request.POST['Landing21Weight']),
+def restore_MSDM_Weight_From_Session(session):
+    return {
+        'Speed90Weight': (float)(session['Speed90Weight']),
+        'ShorelineDistWeight': (float)(session['ShorelineDistWeight']),
+        'MilitaryDistWeight': (float)(session['MilitaryDistWeight']),
+        'Landing19Weight': (float)(session['Landing19Weight']),
+        'Landing20Weight': (float)(session['Landing20Weight']),
+        'Landing21Weight': (float)(session['Landing21Weight']),
     }
-    return WSDMWeightForm(weight_dict)
-
-def restore_TOPSIS_Weight_From_Session(request):
-    weight_form = {
-        'Speed90Weight': (float)(request.POST['Speed90Weight']),
-        'ShorelineDistWeight': (float)(request.POST['ShorelineDistWeight']),
-        'MilitaryDistWeight': (float)(request.POST['MilitaryDistWeight']),
-        'Landing19Weight': (float)(request.POST['Landing19Weight']),
-        'Landing20Weight': (float)(request.POST['Landing20Weight']),
-        'Landing21Weight': (float)(request.POST['Landing21Weight']),
+def restore_TOPSIS_Weight_From_Session(session):
+    return {
+        'Speed90Weight': (float)(session['Speed90Weight']),
+        'ShorelineDistWeight': (float)(session['ShorelineDistWeight']),
+        'MilitaryDistWeight': (float)(session['MilitaryDistWeight']),
+        'Landing19Weight': (float)(session['Landing19Weight']),
+        'Landing20Weight': (float)(session['Landing20Weight']),
+        'Landing21Weight': (float)(session['Landing21Weight']),
     }
-    return TopsisWeightForm(weight_form)
 class WSDMWeightForm(forms.Form):
     Speed90Weight = forms.FloatField(
         label='Weight of Wind Speed 90m ',

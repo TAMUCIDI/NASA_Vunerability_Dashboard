@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from apps.maps.forms import WSDMWeightForm, FishingAreaChoiceForm, TopsisWeightForm
+from apps.maps.forms import WSDMWeightForm, FishingAreaChoiceForm, TopsisWeightForm, restore_MSDM_Weight_From_Session, restore_TOPSIS_Weight_From_Session
 
 import numpy as np
 import logging
@@ -56,6 +56,12 @@ def Map(request):
     if request.method == 'POST':
         # update the weight_dict when the user submits the form
         fishing_area_choices, algo_choice, WSDM_Weight, AHP_Weight, TOPSIS_Weight = process_post_request(request)
+        if algo_choice == "MCDM":
+            weight_dict = WSDM_Weight
+        elif algo_choice == "AHP":
+            weight_dict = AHP_Weight
+        elif algo_choice == "TOPSIS":
+            weight_dict = TOPSIS_Weight
     else:
         WSDM_Weight = init_input_dict()
         TOPSIS_Weight = init_input_dict()
@@ -65,18 +71,23 @@ def Map(request):
         if 'fishing_area_choices' in request.session:
             fishing_area_choices = request.session['fishing_area_choices']
         if 'MSDM_weight_form' in request.session:
-            WSDM_Weight = request.session['MSDM_weight_form']
+            #WSDM_Weight = request.session['MSDM_weight_form']
+            WSDM_Weight = restore_MSDM_Weight_From_Session(request.session['MSDM_weight_form'])
+            weight_dict = WSDM_Weight
         if 'AHP_weight_form' in request.session:
             AHP_Weight = request.session['AHP_weight_form']
+            weight_dict = AHP_Weight
         if 'TOPSIS_weight_form' in request.session:
-            TOPSIS_Weight = request.session['TOPSIS_weight_form']
+            #TOPSIS_Weight = request.session['TOPSIS_weight_form']
+            TOPSIS_Weight = restore_TOPSIS_Weight_From_Session(request.session['TOPSIS_weight_form'])
+            weight_dict = TOPSIS_Weight
     
     cwd = os.path.dirname(os.path.realpath(__file__))
     gjson_file_path = cwd + "/data/polygons.geojson"
     shp_file_path = cwd + "/data/divided_polygons_SpatialJoin12.shp"
     loader = dataLoader(gjson_file_path, shp_file_path)
 
-    folium_figure, consistent_ratio = create_map(loader, algo_choice, fishing_area_choices, WSDM_Weight)
+    folium_figure, consistent_ratio = create_map(loader, algo_choice, fishing_area_choices, weight_dict)
     
 
     context = {

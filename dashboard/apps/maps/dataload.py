@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import os
 from folium import GeoJson
-from topsis import topsis
+from pyDecision.algorithm import topsis_method
 import ahpy
 from apps.maps.dataprocess import normalize
 
@@ -67,14 +67,17 @@ class dataLoader():
                     - weightDict['Landing21Weight'] * dfNorm['2021']
         elif algoChoice == "TOPSIS":
             #"TOPSIS" weighted score
-            topsisWeights = [weightDict['Speed90Weight'], weightDict['ShorelineDistWeight'], weightDict['MilitaryDistWeight'], weightDict['Landing19Weight'], weightDict['Landing20Weight'], weightDict['Landing21Weight']]
-            topsisCriterias = [True, False, True, False, False, False]
+            topsisWeights = np.array([weightDict['Speed90Weight'], weightDict['ShorelineDistWeight'], weightDict['MilitaryDistWeight'], weightDict['Landing19Weight'], weightDict['Landing20Weight'], weightDict['Landing21Weight']])
+            topsisCriterias = ['max', 'min', 'max', 'min', 'min', 'min']
             topsisData = np.array(
                 [dfNorm['Speed_90'], dfNorm['Shoreline_Dist'], dfNorm['Mili_Dist'], dfNorm['2019'], dfNorm['2020'], dfNorm['2021']]
             ).T
+            score = topsis_method(topsisData, topsisWeights, topsisCriterias, graph=False)
+            '''
             topsisDecision = topsis(topsisData, topsisWeights, topsisCriterias)
             topsisDecision.calc()
             score = topsisDecision.C
+            '''
         elif algoChoice == "AHP":
             #construct AHP matrix
             feature_list = ['Wind_Speed', 'Shoreline_Distance', 'Military_Distance', '2019_Landing', '2020_Landing', '2021_Landing']
