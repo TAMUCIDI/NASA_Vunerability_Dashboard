@@ -1,0 +1,47 @@
+<html lang="en" class="material-style layout-fixed">
+{% load static %}
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <h1>Statistics Visualization</h1>
+    <div class="row">
+      <span>
+        {% if SpeedGraph %}
+          {{ SpeedGraph|safe }}
+        {% else %}
+          <p>No graph was provided.</p>
+        {% endif %}
+      </span>
+      <span>
+        {% if MiliGraph %}
+          {{ MiliGraph|safe }}
+        {% else %}
+          <p>No graph was provided.</p>
+        {% endif %}
+      </span>
+      <span>
+        {% if ShorelineGraph %}
+          {{ ShorelineGraph|safe }}
+        {% else %}
+          <p>No graph was provided.</p>
+        {% endif %}
+      </span>
+    </div>
+    <div class="row">
+      <span>
+        {% if LandingLineGraph %}
+          {{ LandingLineGraph|safe }}
+        {% else %}
+          <p>
+            No Graph was provided.
+          </p>
+        {% endif %}
+      </span>
+    </div>
+</body>
+</html>

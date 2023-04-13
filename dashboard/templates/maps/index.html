@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.1.0/dist/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to the Index Page of Offshore Wind Dashboard</h1>
+    <p>
+        <a href="{% url 'map' %}">Go to Map</a>
+    </p>
+    <p>
+        <a href="{% url 'graph' %}">Go to Graph</a>
+    </p>
+</body>
+</html>
