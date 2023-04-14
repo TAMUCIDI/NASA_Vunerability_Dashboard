@@ -5,6 +5,7 @@ class Maps(models.Model):
     Speed90Weight = models.FloatField()
     ShorelineDistWeight = models.FloatField()
     MilitaryDistWeight = models.FloatField()
+    ProtectedAreaDistWeight = models.FloatField()
     Landing19Weight = models.FloatField()
     Landing19Weight = models.FloatField()
     Landing19Weight = models.FloatField()

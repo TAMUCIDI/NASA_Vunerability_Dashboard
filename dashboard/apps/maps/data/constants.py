@@ -20,6 +20,7 @@ NORMALIZE_COLUMNS = [
     'Speed_90', 
     'Mili_Dist', 
     'Shoreline_Dist', 
+    'NEAR_DIST_PROT',
     '2019',
     '2020',
     '2021',

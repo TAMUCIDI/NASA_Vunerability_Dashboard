@@ -62,15 +62,34 @@ class dataLoader():
             score = weightDict['Speed90Weight']*dfNorm['Speed_90'] \
                     - weightDict['ShorelineDistWeight'] * dfNorm['Shoreline_Dist'] \
                     + weightDict['MilitaryDistWeight'] * dfNorm['Mili_Dist'] \
+                    + weightDict['ProtectedAreaDistWeight'] * dfNorm['NEAR_DIST_PROT'] \
                     - weightDict['Landing19Weight'] * dfNorm['2019'] \
                     - weightDict['Landing20Weight'] * dfNorm['2020'] \
                     - weightDict['Landing21Weight'] * dfNorm['2021']
         elif algoChoice == "TOPSIS":
             #"TOPSIS" weighted score
-            topsisWeights = np.array([weightDict['Speed90Weight'], weightDict['ShorelineDistWeight'], weightDict['MilitaryDistWeight'], weightDict['Landing19Weight'], weightDict['Landing20Weight'], weightDict['Landing21Weight']])
-            topsisCriterias = ['max', 'min', 'max', 'min', 'min', 'min']
+            topsisWeights = np.array(
+                [
+                    weightDict['Speed90Weight'], 
+                    weightDict['ShorelineDistWeight'], 
+                    weightDict['MilitaryDistWeight'], 
+                    weightDict['ProtectedAreaDistWeight'],
+                    weightDict['Landing19Weight'], 
+                    weightDict['Landing20Weight'], 
+                    weightDict['Landing21Weight']
+                ]
+            )
+            topsisCriterias = ['max', 'min', 'max', 'max', 'min', 'min', 'min']
             topsisData = np.array(
-                [dfNorm['Speed_90'], dfNorm['Shoreline_Dist'], dfNorm['Mili_Dist'], dfNorm['2019'], dfNorm['2020'], dfNorm['2021']]
+                [
+                    dfNorm['Speed_90'], 
+                    dfNorm['Shoreline_Dist'], 
+                    dfNorm['Mili_Dist'], 
+                    dfNorm['NEAR_DIST_PROT'],
+                    dfNorm['2019'], 
+                    dfNorm['2020'], 
+                    dfNorm['2021']
+                ]
             ).T
             score = topsis_method(topsisData, topsisWeights, topsisCriterias, graph=False)
             '''
@@ -80,11 +99,25 @@ class dataLoader():
             '''
         elif algoChoice == "AHP":
             #construct AHP matrix
-            feature_list = ['Wind_Speed', 'Shoreline_Distance', 'Military_Distance', '2019_Landing', '2020_Landing', '2021_Landing']
+            feature_list = [
+                'Wind_Speed', 
+                'Shoreline_Distance', 
+                'Military_Distance', 
+                'Protected_Area_Distance',
+                '2019_Landing', 
+                '2020_Landing', 
+                '2021_Landing'
+            ]
             AHP_feature_len = len(feature_list)
             AHP_Comparison_dict = dict()
             AHPMatrix = [
-                weightDict['Speed90Weight'], weightDict['ShorelineDistWeight'], weightDict['MilitaryDistWeight'], weightDict['Landing19Weight'], weightDict['Landing20Weight'], weightDict['Landing21Weight']
+                weightDict['Speed90Weight'], 
+                weightDict['ShorelineDistWeight'], 
+                weightDict['MilitaryDistWeight'], 
+                weightDict['ProtectedAreaDistWeight'],
+                weightDict['Landing19Weight'], 
+                weightDict['Landing20Weight'], 
+                weightDict['Landing21Weight']
             ]
 
             for i in range(AHP_feature_len):
@@ -107,9 +140,10 @@ class dataLoader():
             score = AHP_Weights[0]*dfNorm['Speed_90'] \
                     - AHP_Weights[1] * dfNorm['Shoreline_Dist'] \
                     + AHP_Weights[2] * dfNorm['Mili_Dist'] \
-                    - AHP_Weights[3] * dfNorm['2019'] \
-                    - AHP_Weights[4] * dfNorm['2020'] \
-                    - AHP_Weights[5] * dfNorm['2021']
+                    + AHP_Weights[3] * dfNorm['NEAR_DIST_PROT'] \
+                    - AHP_Weights[4] * dfNorm['2019'] \
+                    - AHP_Weights[5] * dfNorm['2020'] \
+                    - AHP_Weights[6] * dfNorm['2021']
 
         for i,s in enumerate(score):
             score[i] = (score[i] - score.min())/(score.max() - score.min())

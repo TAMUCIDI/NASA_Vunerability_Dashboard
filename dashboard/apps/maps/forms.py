@@ -6,6 +6,7 @@ def restore_MSDM_Weight_From_Session(session):
         'Speed90Weight': (float)(session['Speed90Weight']),
         'ShorelineDistWeight': (float)(session['ShorelineDistWeight']),
         'MilitaryDistWeight': (float)(session['MilitaryDistWeight']),
+        'ProtectedAreaDistWeight': (float)(session['ProtectedAreaDistWeight']),
         'Landing19Weight': (float)(session['Landing19Weight']),
         'Landing20Weight': (float)(session['Landing20Weight']),
         'Landing21Weight': (float)(session['Landing21Weight']),
@@ -15,6 +16,7 @@ def restore_TOPSIS_Weight_From_Session(session):
         'Speed90Weight': (float)(session['Speed90Weight']),
         'ShorelineDistWeight': (float)(session['ShorelineDistWeight']),
         'MilitaryDistWeight': (float)(session['MilitaryDistWeight']),
+        'ProtectedAreaDistWeight': (float)(session['ProtectedAreaDistWeight']),
         'Landing19Weight': (float)(session['Landing19Weight']),
         'Landing20Weight': (float)(session['Landing20Weight']),
         'Landing21Weight': (float)(session['Landing21Weight']),
@@ -34,6 +36,12 @@ class WSDMWeightForm(forms.Form):
 
     MilitaryDistWeight = forms.FloatField(
         label='Weight of Military Distance ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+
+    ProtectedAreaDistWeight = forms.FloatField(
+        label='Weight of Protected Area Distance ',
         widget=forms.NumberInput(),
         initial=1,
     )
@@ -81,7 +89,12 @@ class TopsisWeightForm(forms.Form):
         widget=forms.NumberInput(),
         initial=1,
     )
-
+    ProtectedAreaDistWeight = forms.FloatField(
+        label='Weight of Protected Area Distance ',
+        widget=forms.NumberInput(),
+        initial=1,
+    )
+    
     Landing19Weight = forms.FloatField(
         label='Weight of Landing in 2019 ',
         widget=forms.NumberInput(),
