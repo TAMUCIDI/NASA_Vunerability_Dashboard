@@ -68,6 +68,7 @@ def Map(request):
         AHP_Weight = np.zeros((6,6))
         fishing_area_choices = []
         algo_choice = "MCDM"
+        weight_dict = WSDM_Weight
         if 'fishing_area_choices' in request.session:
             fishing_area_choices = request.session['fishing_area_choices']
         if 'MSDM_weight_form' in request.session:
@@ -82,13 +83,13 @@ def Map(request):
             TOPSIS_Weight = restore_TOPSIS_Weight_From_Session(request.session['TOPSIS_weight_form'])
             weight_dict = TOPSIS_Weight
     
-    cwd = os.path.dirname(os.path.realpath(__file__))
-    gjson_file_path = cwd + "/data/polygons.geojson"
-    shp_file_path = cwd + "/data/divided_polygons_SpatialJoin12.shp"
-    loader = dataLoader(gjson_file_path, shp_file_path)
-
-    folium_figure, consistent_ratio = create_map(loader, algo_choice, fishing_area_choices, weight_dict)
-    
+    file_path_dict = {
+        "polygon_shp": "/data/divided_polygons_SpatialJoin12.shp",
+        "polygon_json": "/data/polygons.geojson",
+        "call_area_shp": "/data/call_areas.shp",
+        "protected_area_shp": "/data/ProtectedAreas.shp",
+    }
+    folium_figure, consistent_ratio = create_map(file_path_dict, algo_choice, fishing_area_choices, weight_dict)
 
     context = {
         "map": folium_figure,

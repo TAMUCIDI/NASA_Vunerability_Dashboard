@@ -1,10 +1,17 @@
 import pandas as pd
+import geopandas as gpd
 #folium
 import folium
 #from folium import plugins, Choropleth, Figure, Map, GeoJson, FeatureGroup, LayerControl
 import branca.colormap as cm
+import os
 
-def create_map(loader, algo_choice, fishing_area_choices, weight_dict):
+from apps.maps.dataload import dataLoader
+
+def create_map(file_path_dict, algo_choice, fishing_area_choices, weight_dict):
+    cwd = os.path.dirname(os.path.realpath(__file__))
+    loader = dataLoader(cwd+file_path_dict['polygon_json'], cwd+file_path_dict['polygon_shp'])
+
     if algo_choice == "AHP":
         score_gdf, consistent_ratio = loader.get_score_gdf(weight_dict=weight_dict, algo_choice=algo_choice)
     else:
@@ -21,7 +28,13 @@ def create_map(loader, algo_choice, fishing_area_choices, weight_dict):
     )
 
     add_choropleth(folium_map, score_gdf)
+
     add_mouse_position(folium_map)
+
+    add_layer(cwd+file_path_dict['call_area_shp'], folium_map, 'Call Area', 'blue')
+
+    add_layer(cwd+file_path_dict['protected_area_shp'], folium_map, 'Protected Area', 'green')
+    
     folium.LayerControl().add_to(folium_map)
 
     # Create a folium.Figure object and add the folium_map to it
@@ -54,4 +67,17 @@ def add_mouse_position(folium_map):
         prefix="Coordinates:",
         lat_formatter=formatter,
         lng_formatter=formatter,
+    ).add_to(folium_map)
+
+def add_layer(shp_file, folium_map, layer_name, color):
+    gdf = gpd.read_file(shp_file)
+    folium.GeoJson(
+        gdf,
+        name=layer_name,
+        style_function=lambda feature: {
+            'fillColor': color,
+            'color': color,
+            'weight': 1,
+            'fillOpacity': 0.1,
+        }
     ).add_to(folium_map)
