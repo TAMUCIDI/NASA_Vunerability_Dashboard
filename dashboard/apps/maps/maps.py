@@ -17,8 +17,8 @@ def create_map(file_path_dict, algo_choice, fishing_area_choices, weight_dict):
     else:
         score_gdf = loader.get_score_gdf(weightDict=weight_dict, algoChoice=algo_choice)
         consistent_ratio = "N/A"
-    if len(fishing_area_choices) > 0 and 'ALL' not in fishing_area_choices:
-        score_gdf = score_gdf[score_gdf['PORT_GROUP'].isin(fishing_area_choices)]
+    if len(fishing_area_choices) > 0 and 'ALL' not in fishing_area_choices['fishingArea']:
+        score_gdf = score_gdf[score_gdf['PORT_GROUP'].isin(fishing_area_choices['fishingArea'])]
 
     folium_map = folium.Map(
         location=[35, -125],

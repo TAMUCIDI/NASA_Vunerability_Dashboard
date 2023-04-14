@@ -85,7 +85,8 @@ def Map(request):
     
     file_path_dict = {
         "polygon_shp": "/data/divided_polygons_SpatialJoin12.shp",
-        "polygon_json": "/data/polygons.geojson",
+        #"polygon_json": "/data/polygons.geojson",
+        "polygon_json": "/data/divided_polygons_SpatialJoin_new.geojson",
         "call_area_shp": "/data/call_areas.shp",
         "protected_area_shp": "/data/ProtectedAreas.shp",
     }

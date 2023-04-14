@@ -35,7 +35,7 @@ class dataLoader():
                 'Mili_Dist', 
                 'Shoreline_Dist', 
                 '2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020', '2021',
-                'NAME', 'PORT_GROUP']]
+                'NAME', 'PORT_GROUP', 'NEAR_DIST_PROT']]
 
     def get_geometry(self):
         return self.geometry
@@ -113,7 +113,7 @@ class dataLoader():
 
         for i,s in enumerate(score):
             score[i] = (score[i] - score.min())/(score.max() - score.min())
-
+        '''
         #protected area
         protected = self.get_gdf()['Area_Name']
 
@@ -121,6 +121,8 @@ class dataLoader():
         for index, value in protected.items():
             if value != None:
                 score[index] = 0
+        '''
+        
 
         '''
         dataDf = pd.DataFrame(
