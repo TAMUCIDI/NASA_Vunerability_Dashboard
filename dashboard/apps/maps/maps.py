@@ -5,35 +5,24 @@ import folium
 #from folium import plugins, Choropleth, Figure, Map, GeoJson, FeatureGroup, LayerControl
 import branca.colormap as cm
 import os
+from .constants import shapefile_path, census_data_path
+from apps.maps.dataload import DataLoader
 
-from apps.maps.dataload import dataLoader
-
-def create_map(file_path_dict, algo_choice, fishing_area_choices, weight_dict):
-    cwd = os.path.dirname(os.path.realpath(__file__))
-    loader = dataLoader(cwd+file_path_dict['polygon_json'], cwd+file_path_dict['polygon_shp'])
-
-    if algo_choice == "AHP":
-        score_gdf, consistent_ratio = loader.get_score_gdf(weight_dict=weight_dict, algo_choice=algo_choice)
-    else:
-        score_gdf = loader.get_score_gdf(weightDict=weight_dict, algoChoice=algo_choice)
-        consistent_ratio = "N/A"
-    if len(fishing_area_choices) > 0 and 'ALL' not in fishing_area_choices['fishingArea']:
-        score_gdf = score_gdf[score_gdf['PORT_GROUP'].isin(fishing_area_choices['fishingArea'])]
+def create_map():
+    # load data
+    loader = DataLoader()
+    gdf = loader.gdf
 
     folium_map = folium.Map(
-        location=[35, -125],
-        zoom_start=6,
+        location=[36.084621, -96.921387], 
+        zoom_start=7,
         width=900,
         height=900
     )
 
-    add_choropleth(folium_map, score_gdf)
+    add_choropleth(folium_map, gdf)
 
-    add_mouse_position(folium_map)
-
-    add_layer(cwd+file_path_dict['call_area_shp'], folium_map, 'Call Area', 'blue')
-
-    add_layer(cwd+file_path_dict['protected_area_shp'], folium_map, 'Protected Area', 'green')
+    #add_mouse_position(folium_map)
     
     folium.LayerControl().add_to(folium_map)
 
@@ -42,18 +31,16 @@ def create_map(file_path_dict, algo_choice, fishing_area_choices, weight_dict):
     folium_map.add_to(figure)
     figure.render() 
 
-    return figure, consistent_ratio
+    return figure
 
-def add_choropleth(folium_map, score_gdf):
+def add_choropleth(folium_map, gdf):
     folium.Choropleth(
-        geo_data=score_gdf,
-        data=pd.DataFrame(score_gdf),
-        columns=['OBJECTID', 'score'],
-        key_on='feature.properties.OBJECTID',
-        fill_color='OrRd',
-        name='Wind Energy Suitability Score Choropleth',
+        geo_data=gdf['geometry'],
+        data=gdf.dropna(subset=['Female_Percent'])['Female_Percent'],
+        key_on='feature.id',
+        fill_color='YlGn',
+        name='Female Percentage Choropleth',
         line_weight=0.1,
-        highlight=True
     ).add_to(folium_map)
 
 def add_mouse_position(folium_map):
