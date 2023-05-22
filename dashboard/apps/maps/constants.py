@@ -7,6 +7,24 @@ shapefile_path = cwd + "/data/census_tract/tl_2020_40_tract.shp"
 #census data Excel Path
 census_data_path = cwd + "/data/census_data/data.xlsx"
 
+criterion_list = [
+    'max', # Female Percent
+    'max', # Age Percent
+    'max', # Property Percent
+    'max', # No Diploma Percent
+    'max', # Living Alone Percent
+    'max', # Minority Percent
+    'max', # Unemployment Percent
+    'max', # Language Percent
+    'max', # Rent Percent
+    'max', # No Vehicle Percent
+    'max', # No Insurance Percent
+    'max', # Disability Percent
+    'min', # Computer Percent
+    'max', # No Internet Percent
+    'max', # No Phone Percent
+]
+
 AREA_CHOICES = (
     ('SFA', 'SFA'),
     ('BGA', 'BGA'),

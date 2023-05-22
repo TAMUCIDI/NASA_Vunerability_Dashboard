@@ -6,32 +6,26 @@ import folium
 import branca.colormap as cm
 import os
 from .constants import shapefile_path, census_data_path
-from apps.maps.dataload import DataLoader
 
-def create_map():
-    # load data
-    loader = DataLoader()
-    gdf = loader.gdf
+class Map():
+    def __init__(self, gdf) -> None:
+        self.gdf = gdf
+        self.map = None
+        self.figure = None
 
-    folium_map = folium.Map(
-        location=[36.084621, -96.921387], 
-        zoom_start=7,
-        width=900,
-        height=900
-    )
-
-    add_choropleth(folium_map, gdf)
-
-    #add_mouse_position(folium_map)
-    
-    folium.LayerControl().add_to(folium_map)
-
-    # Create a folium.Figure object and add the folium_map to it
-    figure = folium.Figure()
-    folium_map.add_to(figure)
-    figure.render() 
-
-    return figure
+    def create_map(self):
+        self.map = folium.Map(
+            location=[36.084621, -96.921387], 
+            zoom_start=7,
+            width=900,
+            height=900
+        )
+        add_choropleth(self.map, self.gdf)
+        folium.LayerControl().add_to(self.map)
+        self.figure = folium.Figure()
+        self.map.add_to(self.figure)
+        self.figure.render()
+        return self.figure
 
 def add_choropleth(folium_map, gdf):
     folium.Choropleth(

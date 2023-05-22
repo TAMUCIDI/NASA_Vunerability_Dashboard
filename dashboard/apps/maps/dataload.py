@@ -2,9 +2,9 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 from folium import GeoJson
-from pyDecision.algorithm import topsis_method
-import ahpy
-from .constants import shapefile_path, census_data_path
+from .constants import shapefile_path, census_data_path, criterion_list
+from .maps import Map
+from .dataProcess import calculate_vulneral_score
 # Data Loader Class
 class DataLoader():
     def __init__(self, shapefile_path=shapefile_path, census_data_path=census_data_path) -> None:
@@ -13,6 +13,8 @@ class DataLoader():
         self.census_gdf = None
         self.census_df = None
         self.gdf = None
+        self.figure = None
+        self.criterion_list = None
 
         # load shapefile
         try:
@@ -96,8 +98,27 @@ class DataLoader():
                     '%nophone': 'No_Phone_Percent'
                 }
             )
+            self.criterion_list = criterion_list
         except:
             print("failed to rename columns")
             return
 
-    
+    def create_map(self):
+        init_map = Map(self.gdf)
+        self.figure = init_map.create_map()
+        return self.figure
+
+    def update_weighted_map(self, weights):
+        # create a copy of the dataframe
+        gdf = self.gdf.copy()
+        # drop the geometry column
+        df = pd.DataFrame(gdf.drop(columns=['geometry']))
+        # convert weights to numpy array
+        weights = np.array(weights)
+        # calculate the weighted sum
+        _,_,weighted_sum = calculate_vulneral_score(df, weights, self.criterion_list)
+        # add the weighted sum to the dataframe
+        self.gdf['Weighted_Sum'] = weighted_sum
+        # create a new map
+        new_map = Map()
+        self.figure = new_map.update_map(self.gdf)
