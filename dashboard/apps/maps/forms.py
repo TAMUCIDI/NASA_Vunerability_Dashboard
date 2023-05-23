@@ -1,92 +1,108 @@
 from django import forms
-
+Weight_Default_Dict = {
+    'Female_Percent':1.0,
+    'Age_Percent': 1.0,
+    'Property_Percent': 1.0,
+    'NoDiploma_Percent': 1.0,
+    'LivingAlone_Percent': 1.0,
+    'Minority_Percent': 1.0,
+    'Unemployed_Percent': 1.0,
+    'Language_Percent': 1.0,
+    'Rent_Percent': 1.0,
+    'NoVehicle_Percent': 1.0,
+    'NoInsurance_Percent': 1.0,
+    'Disable_Percent': 1.0,
+    'Computer_Percent': 1.0,
+    'NoInternet_Percent': 1.0,
+    'NoPhone_Percent': 1.0,
+}
 class WeightForm(forms.Form):
-    Female_Percent_Weight = forms.FloatField(
-        label='Female Population Percentage Weight',
+    Female_Percent = forms.FloatField(
+        label='Female_Percent',
         widget=forms.NumberInput(),
         initial=1.0
     )
 
-    AgePercentWeight = forms.FloatField(
-        label='Elder and Young Population Percentage Weight',
+    Age_Percent = forms.FloatField(
+        label='Age_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    PropertyPercentWeight = forms.FloatField(
-        label='Property Percentage Weight',
+    Property_Percent = forms.FloatField(
+        label='Property_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    NoDiplomaPercentWeight = forms.FloatField(
-        label='Low Education Percentage Weight',
+    NoDiploma_Percent = forms.FloatField(
+        label='NoDiploma_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    LivingAlonePercentWeight = forms.FloatField(
-        label='Living Alone Percentage Weight',
+    LivingAlone_Percent = forms.FloatField(
+        label='LivingAlone_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    MinorityPercentWeight = forms.FloatField(
-        label='Minority Percentage Weight',
+    Minority_Percent = forms.FloatField(
+        label='Minority_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    UnemploymentPercentWeight = forms.FloatField(
-        label='Unemployment Percentage Weight',
+    Unemployed_Percent = forms.FloatField(
+        label='Unemployed_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    LanguagePercentWeight = forms.FloatField(
-        label='Language Percentage Weight',
+    Language_Percent = forms.FloatField(
+        label='Language_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    RentPercentWeight = forms.FloatField(
-        label='Rent Percentage Weight',
+    Rent_Percent = forms.FloatField(
+        label='Rent_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    NoVehiclePercentWeight = forms.FloatField(
-        label='No Vehicle Percentage Weight',
+    NoVehicle_Percent = forms.FloatField(
+        label='NoVehicle_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    NoInsurancePercentWeight = forms.FloatField(
-        label='No Insurance Percentage Weight',
+    NoInsurance_Percent = forms.FloatField(
+        label='NoInsurance_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    DisablePercentWeight = forms.FloatField(
-        label='Disable Percentage Weight',
+    Disable_Percent = forms.FloatField(
+        label='Disable_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    ComputerPercentWeight = forms.FloatField(
-        label='Computer Percentage Weight',
+    Computer_Percent = forms.FloatField(
+        label='Computer_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    NoInternetPercentWeight = forms.FloatField(
-        label='No Internet Percentage Weight',
+    NoInternet_Percent = forms.FloatField(
+        label='NoInternet_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
 
-    NoPhonePercentWeight = forms.FloatField(
-        label='No Phone Percentage Weight',
+    NoPhone_Percent = forms.FloatField(
+        label='NoPhone_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )

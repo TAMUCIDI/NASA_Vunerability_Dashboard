@@ -103,16 +103,16 @@ class DataLoader():
             print("failed to rename columns")
             return
 
-    def create_map(self):
+    def create_map(self, atrribute_name = "Female_Percent"):
         init_map = Map(self.gdf)
-        self.figure = init_map.create_map()
+        self.figure = init_map.create_map(atrribute_name)
         return self.figure
 
     def update_weighted_map(self, weights):
         # create a copy of the dataframe
         gdf = self.gdf.copy()
         # drop the geometry column
-        df = pd.DataFrame(gdf.drop(columns=['geometry']))
+        df = pd.DataFrame(gdf.drop(columns=['geometry','GEOID']))
         # convert weights to numpy array
         weights = np.array(weights)
         # calculate the weighted sum
@@ -120,5 +120,5 @@ class DataLoader():
         # add the weighted sum to the dataframe
         self.gdf['Weighted_Sum'] = weighted_sum
         # create a new map
-        new_map = Map()
-        self.figure = new_map.update_map(self.gdf)
+        new_map = Map(self.gdf)
+        self.figure = new_map.create_map("Weighted_Sum")
