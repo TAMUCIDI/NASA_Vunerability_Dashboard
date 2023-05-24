@@ -3,7 +3,6 @@ import geopandas as gpd
 #folium
 import folium
 #from folium import plugins, Choropleth, Figure, Map, GeoJson, FeatureGroup, LayerControl
-import branca.colormap as cm
 import os
 from .constants import shapefile_path, census_data_path
 

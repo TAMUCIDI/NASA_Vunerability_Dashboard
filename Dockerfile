@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3.8.13
 
 # 设置 python 环境变量
 ENV PYTHONUNBUFFERED 1
@@ -6,6 +6,7 @@ ENV PYTHONUNBUFFERED 1
 # 创建 code 文件夹并将其设置为工作目录
 RUN mkdir /code
 WORKDIR /code
+
 # 更新 pip
 RUN pip install pip -U
 # 将 requirements.txt 复制到容器的 code 目录
