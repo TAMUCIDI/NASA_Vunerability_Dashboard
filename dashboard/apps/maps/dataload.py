@@ -107,6 +107,13 @@ class DataLoader():
         init_map = Map(self.gdf)
         self.figure = init_map.create_map(atrribute_name)
         return self.figure
+    def normalize_column(self, df, column_name):
+        max_value = df[column_name].max()
+        min_value = df[column_name].min()
+        lower_bound = 0.01
+        upper_bound = 0.99
+        df[column_name] = lower_bound + (df[column_name] - min_value) * (upper_bound - lower_bound) / (max_value - min_value)
+        return df
 
     def update_weighted_map(self, weights):
         # create a copy of the dataframe
@@ -119,6 +126,8 @@ class DataLoader():
         _,_,weighted_sum = calculate_vulneral_score(df, weights, self.criterion_list)
         # add the weighted sum to the dataframe
         self.gdf['Weighted_Sum'] = weighted_sum
+        # normalize the weighted sum
+        self.gdf = self.normalize_column(self.gdf, 'Weighted_Sum')
         # create a new map
         new_map = Map(self.gdf)
         self.figure = new_map.create_map("Weighted_Sum")
