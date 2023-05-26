@@ -89,11 +89,11 @@ class DataLoader():
                     '%minority': 'Minority_Percent',
                     '%unemployment': 'Unemployment_Percent',
                     '%language': 'Language_Percent',
-                    '%renthouse': 'Rent_Percent',
+                    '%renthouse': 'RentHouse_Percent',
                     'Novehicle%': 'No_Vehicle_Percent',
                     '%noinsurance': 'No_Insurance_Percent',
                     '%disability': 'Disable_Percent',
-                    '%computer': 'Computer_Percent',
+                    '%computer': 'Computer_Availability',
                     '%nointernet': 'No_Internet_Percent',
                     '%nophone': 'No_Phone_Percent'
                 }

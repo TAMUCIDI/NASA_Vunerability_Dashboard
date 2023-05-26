@@ -3,16 +3,16 @@ Weight_Default_Dict = {
     'Female_Percent':1.0,
     'Age_Percent': 1.0,
     'Property_Percent': 1.0,
-    'NoDiploma_Percent': 1.0,
+    'Education_Attainmence': 1.0,
     'LivingAlone_Percent': 1.0,
     'Minority_Percent': 1.0,
-    'Unemployed_Percent': 1.0,
+    'Unemployed_Rate': 1.0,
     'Language_Percent': 1.0,
-    'Rent_Percent': 1.0,
+    'RentHouse_Percent': 1.0,
     'NoVehicle_Percent': 1.0,
     'NoInsurance_Percent': 1.0,
     'Disable_Percent': 1.0,
-    'Computer_Percent': 1.0,
+    'Computer_Availability': 1.0,
     'NoInternet_Percent': 1.0,
     'NoPhone_Percent': 1.0,
 }
@@ -35,8 +35,8 @@ class WeightForm(forms.Form):
         initial=0.0
     )
 
-    NoDiploma_Percent = forms.FloatField(
-        label='NoDiploma_Percent',
+    Education_Attainmence = forms.FloatField(
+        label='Education_Attainmence',
         widget=forms.NumberInput(),
         initial=0.0
     )
@@ -53,8 +53,8 @@ class WeightForm(forms.Form):
         initial=0.0
     )
 
-    Unemployed_Percent = forms.FloatField(
-        label='Unemployed_Percent',
+    Unemployed_Rate = forms.FloatField(
+        label='Unemployed_Rate',
         widget=forms.NumberInput(),
         initial=0.0
     )
@@ -65,8 +65,8 @@ class WeightForm(forms.Form):
         initial=0.0
     )
 
-    Rent_Percent = forms.FloatField(
-        label='Rent_Percent',
+    RentHouse_Percent = forms.FloatField(
+        label='RentHouse_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )
@@ -89,8 +89,8 @@ class WeightForm(forms.Form):
         initial=0.0
     )
 
-    Computer_Percent = forms.FloatField(
-        label='Computer_Percent',
+    Computer_Availability = forms.FloatField(
+        label='Computer_Availability',
         widget=forms.NumberInput(),
         initial=0.0
     )
