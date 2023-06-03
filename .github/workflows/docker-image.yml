@@ -37,4 +37,4 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          tags: songzl8/offshorewinddashboard:latest
+          tags: songzl8/nasa_dashboard:latest
