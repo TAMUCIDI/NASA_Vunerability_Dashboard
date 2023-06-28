@@ -40,7 +40,8 @@ def Map(request):
             cache.set(weightsCacheKey, weightDict)
         # get figure
         if not dataLoader.figure:
-            dataLoader.create_map()
+            #dataLoader.create_map()
+            dataLoader.create_map_new()
         folium_figure = dataLoader.figure
 
     elif request.method == 'POST':
@@ -58,7 +59,8 @@ def Map(request):
                 cache.set(weightsCacheKey, weightDict)
                 weightList = np.array(list(weightDict.values()))
                 # calculate vulnerability score
-                dataLoader.update_weighted_map(weightList)
+                #dataLoader.update_weighted_map(weightList)
+                dataLoader.update_weighted_map_new(weightList)
                 # get updated figure
                 folium_figure = dataLoader.figure
         else:

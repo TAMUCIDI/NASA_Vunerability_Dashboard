@@ -14,8 +14,8 @@ class Map():
 
     def create_map(self, attribute_name="Female_Percent"):
         self.map = folium.Map(
-            location=[36.084621, -96.921387], 
-            zoom_start=7,
+            location=[35.45, -97.5], 
+            zoom_start=10,
             width=900,
             height=900
         )

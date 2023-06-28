@@ -2,7 +2,7 @@ from django import forms
 Weight_Default_Dict = {
     'Female_Percent':1.0,
     'Age_Percent': 1.0,
-    'Property_Percent': 1.0,
+    'LowIncome_Percent': 1.0,
     'Education_Attainmence': 1.0,
     'LivingAlone_Percent': 1.0,
     'Minority_Percent': 1.0,
@@ -29,8 +29,8 @@ class WeightForm(forms.Form):
         initial=0.0
     )
 
-    Property_Percent = forms.FloatField(
-        label='Property_Percent',
+    LowIncome_Percent = forms.FloatField(
+        label='LowIncome_Percent',
         widget=forms.NumberInput(),
         initial=0.0
     )

@@ -2,17 +2,19 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 from folium import GeoJson
-from .constants import shapefile_path, census_data_path, criterion_list
+from .constants import shapefile_path, census_data_path, criterion_list, COUNTY_LIST, COLUMNS, COLUMNS_RENAME_DICT, COLUMNS_NEW, COLUMNS_NEW_RENAME_DICT, census_data_new
 from .maps import Map
 from .dataProcess import calculate_vulneral_score
 # Data Loader Class
 class DataLoader():
-    def __init__(self, shapefile_path=shapefile_path, census_data_path=census_data_path) -> None:
+    def __init__(self, shapefile_path=shapefile_path, census_data_path=census_data_path, census_data_new=census_data_new) -> None:
         self.shapefile_path = shapefile_path
         self.census_data_path = census_data_path
+        self.census_data_new = census_data_new
         self.census_gdf = None
         self.census_df = None
         self.gdf = None
+        self.gdf_new = None
         self.figure = None
         self.criterion_list = None
 
@@ -29,16 +31,37 @@ class DataLoader():
             print("failed to load census data")
             return
         
+        # load new census data
+        try:
+            self.census_df_new = pd.read_csv(census_data_new)
+        except:
+            print("failed to load new census data")
+            return
+        
         # clean census data
         self.census_df = self.census_df.drop(self.census_df.index[0])
+        self.census_df_new = self.census_df_new.drop(self.census_df_new.index[0])
         # convert ID column to int
         self.census_gdf['GEOID'] = self.census_gdf['GEOID'].astype(int)
         self.census_df['GEOID'] = self.census_df['GEOID'].astype(int)
+        self.census_df_new['GEOID'] = self.census_df_new['GEOID'].astype(int)
         # merge census data with shapefile
         try:
             self.gdf = self.census_gdf.merge(self.census_df, on='GEOID', how='inner')
         except:
             print("failed to merge census data with shapefile")
+            return
+        # merge new census data with shapefile
+        try:
+            self.gdf_new = self.census_gdf.merge(self.census_df_new, on='GEOID', how='inner')
+        except:
+            print("failed to merge new census data with shapefile")
+            return
+        # filter counties
+        try:
+            self.gdf = self.gdf[self.gdf['COUNTYFP'].isin(COUNTY_LIST)]
+        except:
+            print("failed to filter counties")
             return
         # rename columns
         self.rename_columns()
@@ -54,59 +77,45 @@ class DataLoader():
 
     def rename_columns(self):
         try:
-            self.gdf = self.gdf[
-                [
-                    'geometry',
-                    'GEOID',
-                    'Female%',
-                    'Age<5>65%',
-                    '>15property%',
-                    'nodiploma%',
-                    '%livingalone',
-                    '%minority',
-                    '%unemployment',
-                    '%language',
-                    '%renthouse',
-                    'Novehicle%',
-                    '%noinsurance',
-                    '%disability',
-                    '%computer',
-                    '%nointernet',
-                    '%nophone',  
-                ]
-            ]
+            self.gdf = self.gdf[COLUMNS]
         except:
             print("failed to filter columns")
             return
+        
+        try:
+            self.gdf_new = self.gdf_new[COLUMNS_NEW]
+        except:
+            print("failed to filter new columns")
+            return
+        
         try:
             self.gdf = self.gdf.rename(
-                columns={
-                    'Female%': 'Female_Percent',
-                    'Age<5>65%': 'Elder&Young_Percent',
-                    '>15property%': 'Property_Percent',
-                    'nodiploma%': 'Low_Educ_Percent',
-                    '%livingalone': 'Living_Alone_Percent',
-                    '%minority': 'Minority_Percent',
-                    '%unemployment': 'Unemployment_Percent',
-                    '%language': 'Language_Percent',
-                    '%renthouse': 'RentHouse_Percent',
-                    'Novehicle%': 'No_Vehicle_Percent',
-                    '%noinsurance': 'No_Insurance_Percent',
-                    '%disability': 'Disable_Percent',
-                    '%computer': 'Computer_Availability',
-                    '%nointernet': 'No_Internet_Percent',
-                    '%nophone': 'No_Phone_Percent'
-                }
+                columns=COLUMNS_RENAME_DICT
             )
             self.criterion_list = criterion_list
         except:
             print("failed to rename columns")
+            return
+        
+        try:
+            self.gdf_new = self.gdf_new.rename(
+                columns=COLUMNS_NEW_RENAME_DICT
+            )
+            self.criterion_list = criterion_list
+        except:
+            print("failed to rename new columns")
             return
 
     def create_map(self, atrribute_name = "Female_Percent"):
         init_map = Map(self.gdf)
         self.figure = init_map.create_map(atrribute_name)
         return self.figure
+    
+    def create_map_new(self, attribute_name="Female_Percent"):
+        init_map = Map(self.gdf_new)
+        self.figure = init_map.create_map(attribute_name)
+        return self.figure
+
     def normalize_column(self, df, column_name):
         max_value = df[column_name].max()
         min_value = df[column_name].min()
@@ -130,4 +139,14 @@ class DataLoader():
         self.gdf = self.normalize_column(self.gdf, 'Weighted_Sum')
         # create a new map
         new_map = Map(self.gdf)
+        self.figure = new_map.create_map("Weighted_Sum")
+
+    def update_weighted_map_new(self, weights):
+        gdf = self.gdf_new.copy()
+        df = pd.DataFrame(gdf.drop(columns=['geometry','GEOID']))
+        weights = np.array(weights)
+        _,_,weighted_sum = calculate_vulneral_score(df, weights, self.criterion_list)
+        self.gdf_new['Weighted_Sum'] = weighted_sum
+        self.gdf_new = self.normalize_column(self.gdf_new, 'Weighted_Sum')
+        new_map = Map(self.gdf_new)
         self.figure = new_map.create_map("Weighted_Sum")

@@ -7,6 +7,9 @@ shapefile_path = cwd + "/data/census_tract/tl_2020_40_tract.shp"
 #census data Excel Path
 census_data_path = cwd + "/data/census_data/data.xlsx"
 
+#census data new CSV Path
+census_data_new = cwd + "/data/census_data_new/merged_file_2020.csv"
+
 criterion_list = [
     'max', # Female Percent
     'max', # Age Percent
@@ -25,30 +28,79 @@ criterion_list = [
     'max', # No Phone Percent
 ]
 
-AREA_CHOICES = (
-    ('SFA', 'SFA'),
-    ('BGA', 'BGA'),
-    ('ERA', 'ERA'),
-    ('BDA', 'BDA'),
-    ('SBA', 'SBA'),
-    ('MNA', 'MNA'),
-    ('MRA', 'MRA'),
-    ('LAA', 'LAA'),
-    ('CCA', 'CCA'),
-    ('SDA', 'SDA'),
-    ('ALL', 'ALL'),
-)
+COUNTY_LIST = ['017', '027', '087', '051', '109', '125']
 
-YEAR_RANGE = [
-    '2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020', '2021'
+COLUMNS = [
+            'geometry',
+            'GEOID',
+            'Female%',
+            'Age<5>65%',
+            '>15property%',
+            'nodiploma%',
+            '%livingalone',
+            '%minority',
+            '%unemployment',
+            '%language',
+            '%renthouse',
+            'Novehicle%',
+            '%noinsurance',
+            '%disability',
+            '%computer',
+            '%nointernet',
+            '%nophone',  ]
+
+COLUMNS_NEW = [
+    'geometry',
+    'GEOID',
+    'Female.',
+    'Age.5.65.', 
+    'X.15property.', 
+    'nodiploma.', 
+    'X.livingalone',
+    'X.minority', 
+    'X.unemployment', 
+    'X.language', 
+    'X.renthouse',
+    'Novehicle.', 
+    'X.noinsurance', 
+    'X.disability', 
+    'X.computer',
+    'X.nointernet', 
+    'X.nophone'
 ]
 
-NORMALIZE_COLUMNS = [
-    'Speed_90', 
-    'Mili_Dist', 
-    'Shoreline_Dist', 
-    'NEAR_DIST_PROT',
-    '2019',
-    '2020',
-    '2021',
-]
+COLUMNS_RENAME_DICT = {
+                    'Female%': 'Female_Percent',
+                    'Age<5>65%': 'Elder&Young_Percent',
+                    '>15property%': 'LowIncome_Percent',
+                    'nodiploma%': 'Low_Educ_Percent',
+                    '%livingalone': 'Living_Alone_Percent',
+                    '%minority': 'Minority_Percent',
+                    '%unemployment': 'Unemployment_Percent',
+                    '%language': 'Language_Percent',
+                    '%renthouse': 'RentHouse_Percent',
+                    'Novehicle%': 'No_Vehicle_Percent',
+                    '%noinsurance': 'No_Insurance_Percent',
+                    '%disability': 'Disable_Percent',
+                    '%computer': 'Computer_Availability',
+                    '%nointernet': 'No_Internet_Percent',
+                    '%nophone': 'No_Phone_Percent'
+                }
+
+COLUMNS_NEW_RENAME_DICT = {
+    'Female.': 'Female_Percent',
+    'Age.5.65.': 'Elder&Young_Percent',
+    'X.15property.': 'LowIncome_Percent',
+    'nodiploma.': 'Low_Educ_Percent',
+    'X.livingalone': 'Living_Alone_Percent',
+    'X.minority': 'Minority_Percent',
+    'X.unemployment': 'Unemployment_Percent',
+    'X.language': 'Language_Percent',
+    'X.renthouse': 'RentHouse_Percent',
+    'Novehicle.': 'No_Vehicle_Percent',
+    'X.noinsurance': 'No_Insurance_Percent',
+    'X.disability': 'Disable_Percent',
+    'X.computer': 'Computer_Availability',
+    'X.nointernet': 'No_Internet_Percent',
+    'X.nophone': 'No_Phone_Percent'
+}
